@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7481395B-984F-422E-A1DC-3961D94264E0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Haven.Protocols.Hafen</RootNamespace>
+    <AssemblyName>Haven.Protocols.Hafen</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\11\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="HafenMessageHandlerBase.cs" />
+    <Compile Include="Messages\UpdateAmbientLight.cs" />
+    <Compile Include="Messages\UpdateAstronomy.cs" />
+    <Compile Include="Messages\BuffClearAll.cs" />
+    <Compile Include="Messages\BuffRemove.cs" />
+    <Compile Include="Messages\BuffUpdate.cs" />
+    <Compile Include="Messages\UpdateCharAttributes.cs" />
+    <Compile Include="Messages\UpdateActions.cs" />
+    <Compile Include="Messages\UpdateGameTime.cs" />
+    <Compile Include="Messages\UpdateGameObject.cs" />
+    <Compile Include="Messages\MapInvalidate.cs" />
+    <Compile Include="Messages\MapInvalidateGrid.cs" />
+    <Compile Include="Messages\MapInvalidateRegion.cs" />
+    <Compile Include="Messages\MapRequestGrid.cs" />
+    <Compile Include="Messages\MapUpdateGrid.cs" />
+    <Compile Include="Messages\PartyUpdateMember.cs" />
+    <Compile Include="Messages\PartyChangeLeader.cs" />
+    <Compile Include="Messages\PartyUpdate.cs" />
+    <Compile Include="Messages\PlayMusic.cs" />
+    <Compile Include="Messages\PlaySound.cs" />
+    <Compile Include="Messages\LoadResource.cs" />
+    <Compile Include="Messages\WidgetCreate.cs" />
+    <Compile Include="Messages\WidgetDestroy.cs" />
+    <Compile Include="Messages\WidgetMessage.cs" />
+    <Compile Include="HafenAuthHandler.cs" />
+    <Compile Include="HafenAuthHandlerFactory.cs" />
+    <Compile Include="HafenClient.cs" />
+    <Compile Include="HafenProtocolHandler.cs" />
+    <Compile Include="Utils\BinaryMessageDecoder.GobDelta.cs" />
+    <Compile Include="HafenProtocolHandlerFactory.cs" />
+    <Compile Include="Utils\BinaryMessageDecoder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Haven.Common\Haven.Common.csproj">
+      <Project>{c1541332-956f-4faa-aa1b-3339ca4d8f5c}</Project>
+      <Name>Haven.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{37671BF5-2A78-46D2-B3DF-EAF21AC15850}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Haven.Resources</RootNamespace>
+    <AssemblyName>Haven.Resources</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IEnumerableResourceSource.cs" />
+    <Compile Include="IFileSource.cs" />
+    <Compile Include="IResourceSerializer.cs" />
+    <Compile Include="IResourceSource.cs" />
+    <Compile Include="Layers\ActionLayer.cs" />
+    <Compile Include="Layers\AnimLayer.cs" />
+    <Compile Include="Layers\AudioLayer.cs" />
+    <Compile Include="Layers\CodeEntryLayer.cs" />
+    <Compile Include="Layers\CodeLayer.cs" />
+    <Compile Include="Layers\FontLayer.cs" />
+    <Compile Include="Layers\FoodEventLayer.cs" />
+    <Compile Include="Layers\ImageLayer.cs" />
+    <Compile Include="Layers\MaterialLayer.cs" />
+    <Compile Include="Layers\MeshLayer.cs" />
+    <Compile Include="Layers\MidiLayer.cs" />
+    <Compile Include="Layers\NegLayer.cs" />
+    <Compile Include="Layers\NinepatchLayer.cs" />
+    <Compile Include="Layers\PoseLayer.cs" />
+    <Compile Include="Layers\SkeletonLayer.cs" />
+    <Compile Include="Layers\TexLayer.cs" />
+    <Compile Include="Layers\TextLayer.cs" />
+    <Compile Include="Layers\TileLayer.cs" />
+    <Compile Include="Layers\Tileset2Layer.cs" />
+    <Compile Include="Layers\TilesetLayer.cs" />
+    <Compile Include="Layers\TooltipLayer.cs" />
+    <Compile Include="Layers\UnknownLayer.cs" />
+    <Compile Include="Layers\VertexLayer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource.cs" />
+    <Compile Include="ResourceException.cs" />
+    <Compile Include="Formats\Binary\BinaryLayerHandlerProvider.cs" />
+    <Compile Include="Formats\Binary\BinaryResourceSerializer.cs" />
+    <Compile Include="Formats\Binary\IBinaryLayerHandler.cs" />
+    <Compile Include="Formats\Binary\IBinaryLayerHandlerProvider.cs" />
+    <Compile Include="Formats\Binary\Layers\ActionLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\AnimLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\Audio2LayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\AudioLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\CodeEntryLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\CodeLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\FontLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\FoodEventLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\GenericLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\ImageLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\Material2LayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\MeshLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\MidiLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\NegLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\NinepatchLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\PoseLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\SkeletonLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\TexLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\TextLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\TileLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\Tileset2LayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\TilesetLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\TooltipLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\UnknownLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\Vertex2LayerHandler.cs" />
+    <Compile Include="Sources\FolderFileSource.cs" />
+    <Compile Include="Sources\FolderSource.cs" />
+    <Compile Include="Sources\HttpSource.cs" />
+    <Compile Include="Sources\JarSource.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Haven.Common\Haven.Common.csproj">
+      <Project>{c1541332-956f-4faa-aa1b-3339ca4d8f5c}</Project>
+      <Name>Haven.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

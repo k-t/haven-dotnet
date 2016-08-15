@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DC98487B-961F-4BA7-9E6A-C30FFB7F17FE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Haven.Resources.Formats.Ini</RootNamespace>
+    <AssemblyName>Haven.Resources.Formats.Ini</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MadMilkman.Ini, Version=1.0.6.0, Culture=neutral, PublicKeyToken=4e0b5157a7ffbb74, processorArchitecture=MSIL">
+      <HintPath>..\packages\MadMilkman.Ini.1.0.6.0\lib\net20\MadMilkman.Ini.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IIniLayerHandler.cs" />
+    <Compile Include="IniKeyCollectionExtensions.cs" />
+    <Compile Include="IniLayer.cs" />
+    <Compile Include="IniLayerHandlerProvider.cs" />
+    <Compile Include="IniResource.cs" />
+    <Compile Include="IniResourceGenerator.cs" />
+    <Compile Include="IniResourceIO.cs" />
+    <Compile Include="IniResourceSerializer.cs" />
+    <Compile Include="Layers\ActionLayerHandler.cs" />
+    <Compile Include="Layers\AudioLayerHandler.cs" />
+    <Compile Include="Layers\BinLayerHandler.cs" />
+    <Compile Include="Layers\CodeEntryHandler.cs" />
+    <Compile Include="Layers\CodeLayerHandler.cs" />
+    <Compile Include="Layers\FontLayerHandler.cs" />
+    <Compile Include="Layers\GenericLayerHandler.cs" />
+    <Compile Include="Layers\ImageLayerHandler.cs" />
+    <Compile Include="Layers\NinepatchLayerHandler.cs" />
+    <Compile Include="Layers\TexLayerHandler.cs" />
+    <Compile Include="Layers\TextLayerHandler.cs" />
+    <Compile Include="Layers\TileLayerHandler.cs" />
+    <Compile Include="Layers\TilesetLayerHandler.cs" />
+    <Compile Include="Layers\TooltipLayerHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\ImageUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Haven.Common\Haven.Common.csproj">
+      <Project>{c1541332-956f-4faa-aa1b-3339ca4d8f5c}</Project>
+      <Name>Haven.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Haven.Resources\Haven.Resources.csproj">
+      <Project>{37671bf5-2a78-46d2-b3df-eaf21ac15850}</Project>
+      <Name>Haven.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,9 @@
+language: csharp
+solution: Source/Haven.sln
+mono:
+  - latest
+install:
+  - nuget restore Source/Haven.sln
+  - nuget install NUnit.Runners -Version 2.6.3 -OutputDirectory testrunner
+script:
+  - xbuild /p:Configuration=Release Source/Haven.sln

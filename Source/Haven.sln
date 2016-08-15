@@ -1,0 +1,128 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2EB20B82-F1EF-4F8B-9DD4-488B0B7012AE}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haven.Resources", "Haven.Resources\Haven.Resources.csproj", "{37671BF5-2A78-46D2-B3DF-EAF21AC15850}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haven.Resources.Tests", "Haven.Resources.Tests\Haven.Resources.Tests.csproj", "{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haven.Common", "Haven.Common\Haven.Common.csproj", "{C1541332-956F-4FAA-AA1B-3339CA4D8F5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haven.Common.Tests", "Haven.Common.Tests\Haven.Common.Tests.csproj", "{D03B4885-90C6-464E-B1C5-2344E43E063D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestClient", "TestClient\TestClient.csproj", "{6DF43B94-124F-40F6-BB3A-6DEAB86C2BA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haven.Protocols.Hafen", "Haven.Protocols.Hafen\Haven.Protocols.Hafen.csproj", "{7481395B-984F-422E-A1DC-3961D94264E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haven.Protocols.Legacy", "Haven.Protocols.Legacy\Haven.Protocols.Legacy.csproj", "{974FE49F-3148-4903-818B-822948FD981A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haven.Resources.Formats.Ini", "Haven.Resources.Formats.Ini\Haven.Resources.Formats.Ini.csproj", "{DC98487B-961F-4BA7-9E6A-C30FFB7F17FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haven.Resources.Formats.Ini.Tests", "Haven.Resources.Formats.Ini.Tests\Haven.Resources.Formats.Ini.Tests.csproj", "{FB8EBF57-2DD5-4C39-BA80-7F85EF1AC20B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6ADF3BF2-8996-4488-BB23-E984AADD1669}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1541332-956F-4FAA-AA1B-3339CA4D8F5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1541332-956F-4FAA-AA1B-3339CA4D8F5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1541332-956F-4FAA-AA1B-3339CA4D8F5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1541332-956F-4FAA-AA1B-3339CA4D8F5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D03B4885-90C6-464E-B1C5-2344E43E063D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D03B4885-90C6-464E-B1C5-2344E43E063D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D03B4885-90C6-464E-B1C5-2344E43E063D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D03B4885-90C6-464E-B1C5-2344E43E063D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DF43B94-124F-40F6-BB3A-6DEAB86C2BA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DF43B94-124F-40F6-BB3A-6DEAB86C2BA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DF43B94-124F-40F6-BB3A-6DEAB86C2BA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DF43B94-124F-40F6-BB3A-6DEAB86C2BA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7481395B-984F-422E-A1DC-3961D94264E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7481395B-984F-422E-A1DC-3961D94264E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7481395B-984F-422E-A1DC-3961D94264E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7481395B-984F-422E-A1DC-3961D94264E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{974FE49F-3148-4903-818B-822948FD981A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{974FE49F-3148-4903-818B-822948FD981A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{974FE49F-3148-4903-818B-822948FD981A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{974FE49F-3148-4903-818B-822948FD981A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC98487B-961F-4BA7-9E6A-C30FFB7F17FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC98487B-961F-4BA7-9E6A-C30FFB7F17FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC98487B-961F-4BA7-9E6A-C30FFB7F17FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC98487B-961F-4BA7-9E6A-C30FFB7F17FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB8EBF57-2DD5-4C39-BA80-7F85EF1AC20B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB8EBF57-2DD5-4C39-BA80-7F85EF1AC20B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB8EBF57-2DD5-4C39-BA80-7F85EF1AC20B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB8EBF57-2DD5-4C39-BA80-7F85EF1AC20B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4} = {6ADF3BF2-8996-4488-BB23-E984AADD1669}
+		{D03B4885-90C6-464E-B1C5-2344E43E063D} = {6ADF3BF2-8996-4488-BB23-E984AADD1669}
+		{FB8EBF57-2DD5-4C39-BA80-7F85EF1AC20B} = {6ADF3BF2-8996-4488-BB23-E984AADD1669}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = MonoHaven.Designer\MonoHaven.Designer.csproj
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = None
+		$1.ResourceNamePolicy = FileFormatDefault
+		$0.TextStylePolicy = $5
+		$2.TabsToSpaces = False
+		$2.inheritsSet = VisualStudio
+		$2.inheritsScope = text/plain
+		$2.scope = text/plain
+		$3.inheritsSet = null
+		$3.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $4
+		$4.IndentSwitchBody = True
+		$4.AnonymousMethodBraceStyle = NextLine
+		$4.PropertyBraceStyle = NextLine
+		$4.PropertyGetBraceStyle = NextLine
+		$4.PropertySetBraceStyle = NextLine
+		$4.EventBraceStyle = NextLine
+		$4.EventAddBraceStyle = NextLine
+		$4.EventRemoveBraceStyle = NextLine
+		$4.StatementBraceStyle = NextLine
+		$4.ElseNewLinePlacement = NewLine
+		$4.CatchNewLinePlacement = NewLine
+		$4.FinallyNewLinePlacement = NewLine
+		$4.WhileNewLinePlacement = DoNotCare
+		$4.ArrayInitializerWrapping = DoNotChange
+		$4.ArrayInitializerBraceStyle = NextLine
+		$4.BeforeMethodDeclarationParentheses = False
+		$4.BeforeMethodCallParentheses = False
+		$4.BeforeConstructorDeclarationParentheses = False
+		$4.BeforeDelegateDeclarationParentheses = False
+		$4.NewParentheses = False
+		$4.SpacesBeforeBrackets = False
+		$4.inheritsSet = Mono
+		$4.inheritsScope = text/x-csharp
+		$4.scope = text/x-csharp
+		$5.inheritsSet = VisualStudio
+		$5.inheritsScope = text/plain
+		$5.scope = application/xml
+		$0.XmlFormattingPolicy = $6
+		$6.inheritsSet = Mono
+		$6.inheritsScope = application/xml
+		$6.scope = application/xml
+	EndGlobalSection
+EndGlobal
