@@ -20,17 +20,9 @@ namespace TestClient
 				return;
 			}
 
-			GameClient client;
-			if (options.UseLegacyProtocol)
-			{
-				client= new LegacyClient(GetLegacyConfig(options.Host));
-				client.Messages.Subscribe(new LegacyMessageHandlerBase());
-			}
-			else
-			{
-				client = new HafenClient(GetHafenConfig(options.Host));
-				client.Messages.Subscribe(new HafenMessageHandlerBase());
-			}
+			var client = options.UseLegacyProtocol
+				? (GameClient)new LegacyClient(GetLegacyConfig(options.Host))
+				: (GameClient)new HafenClient(GetHafenConfig(options.Host));
 
 			var authResult = client.Authenticate(options.User, options.Password, true);
 			if (authResult.IsSuccessful)
@@ -40,7 +32,7 @@ namespace TestClient
 				Console.WriteLine("\tcookie={0}", Convert.ToBase64String(authResult.SessionCookie));
 				Console.WriteLine("\ttoken={0}", Convert.ToBase64String(authResult.SessionToken));
 
-				client.Messages.Subscribe(new TestLegacyMessageHandler(client));
+				client.Messages.Subscribe(new TestMessageHandler(client));
 				client.Connect();
 
 				if (client.State != GameClientState.Connected)

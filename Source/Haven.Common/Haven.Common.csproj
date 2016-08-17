@@ -44,7 +44,7 @@
     <Compile Include="Messaging\IMessageHandler.cs" />
     <Compile Include="Messaging\IMessageSource.cs" />
     <Compile Include="Messaging\MessageBroker.cs" />
-    <Compile Include="Messaging\MessageHandlerBase.cs" />
+    <Compile Include="Messaging\TypedMessageHandler.cs" />
     <Compile Include="Messaging\NullMessageDispatcher.cs" />
     <Compile Include="MiscUtil\Conversion\BigEndianBitConverter.cs" />
     <Compile Include="MiscUtil\Conversion\EndianBitConverter.cs" />

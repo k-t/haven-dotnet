@@ -4,9 +4,9 @@ using Haven.Protocols.Legacy.Messages;
 
 namespace Haven.Protocols.Legacy
 {
-	public class LegacyMessageHandlerBase : MessageHandlerBase
+	public abstract class LegacyMessageHandlerBase : TypedMessageHandler
 	{
-		public LegacyMessageHandlerBase()
+		protected LegacyMessageHandlerBase()
 		{
 			InitializeHandlers();
 		}

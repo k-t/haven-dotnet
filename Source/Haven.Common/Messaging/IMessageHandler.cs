@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Haven.Messaging
+﻿namespace Haven.Messaging
 {
 	public interface IMessageHandler
 	{
-		IEnumerable<Type> SupportedMessageTypes { get; }
+		bool CanHandle(object message);
 
 		void Handle(object message);
 	}

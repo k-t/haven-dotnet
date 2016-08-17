@@ -4,9 +4,9 @@ using Haven.Protocols.Hafen.Messages;
 
 namespace Haven.Protocols.Hafen
 {
-	public class HafenMessageHandlerBase : MessageHandlerBase
+	public abstract class HafenMessageHandlerBase : TypedMessageHandler
 	{
-		public HafenMessageHandlerBase()
+		protected HafenMessageHandlerBase()
 		{
 			InitializeHandlers();
 		}

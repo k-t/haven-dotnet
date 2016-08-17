@@ -1,24 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
 
 namespace Haven.Messaging
 {
-	public abstract class MessageHandlerBase : IMessageHandler
+	public abstract class TypedMessageHandler : IMessageHandler
 	{
 		private readonly Dictionary<Type, Action<object>> handlers;
 
-		protected MessageHandlerBase()
+		protected TypedMessageHandler()
 		{
 			handlers = new Dictionary<Type, Action<object>>();
 		}
 
-		public IEnumerable<Type> SupportedMessageTypes
+		public bool CanHandle(object message)
 		{
-			get { return handlers.Keys; }
+			return message != null && handlers.ContainsKey(message.GetType());
 		}
 
 		public void Handle(object message)
