@@ -9,39 +9,6 @@ namespace Haven.Protocols.Hafen.Utils
 {
 	internal static partial class BinaryMessageDecoder
 	{
-		public static void ReadLightUpdateEvent(this BinaryDataReader reader)
-		{
-			reader.ReadColor(); // lightamb
-			reader.ReadColor(); // lightdif
-			reader.ReadColor(); // lightspc
-			var lightang = (reader.ReadInt32() / 1000000.0) * Math.PI * 2.0;
-			var lightelev = (reader.ReadInt32() / 1000000.0) * Math.PI * 2.0;
-		}
-
-		public static void ReadSkyUpdateEvent(this BinaryDataReader reader)
-		{
-			int id1 = reader.ReadUInt16();
-			if (id1 != 65535)
-			{
-				int id2 = reader.ReadUInt16();
-				if (id2 != 65535)
-				{
-					var skyblend = reader.ReadInt32() / 1000000.0;
-				}
-			}
-		}
-
-		public static void ReadWeatherUpdateEvent(this BinaryDataReader reader)
-		{
-			while (true)
-			{
-				int resId = reader.ReadUInt16();
-				if (resId == 65535)
-					break;
-				object[] args = reader.ReadList();
-			}
-		}
-
 		public static UpdateCharAttributes ReadCharAttributesUpdateEvent(this BinaryDataReader reader)
 		{
 			var attributes = new List<CharAttribute>();
@@ -93,13 +60,6 @@ namespace Haven.Protocols.Hafen.Utils
 			return new UpdateActions {
 				Added = added.ToArray(),
 				Removed = removed.ToArray()
-			};
-		}
-
-		public static UpdateGameTime ReadTimeUpdateEvent(this BinaryDataReader reader)
-		{
-			return new UpdateGameTime {
-				Time = reader.ReadInt32()
 			};
 		}
 
@@ -266,11 +226,6 @@ namespace Haven.Protocols.Hafen.Utils
 
 		public static void ReadSessionKeyEvent(this BinaryDataReader reader)
 		{
-		}
-
-		private static double Defix(int i)
-		{
-			return i / 1e9;
 		}
 
 		private static byte[] Unpack(byte[] input)

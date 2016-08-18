@@ -2,16 +2,14 @@
 {
 	public class UpdateAstronomy
 	{
-		public double DayTime
-		{
-			get;
-			set;
-		}
+		public double Day { get; set; }
 
-		public double MoonPhase
-		{
-			get;
-			set;
-		}
+		public double Year { get; set; }
+
+		public double MoonPhase { get; set; }
+
+		public bool IsNight { get; set; }
+
+		public Color MoonColor { get; set; }
 	}
 }

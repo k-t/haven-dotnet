@@ -156,22 +156,47 @@ namespace Haven.Protocols.Hafen
 					break;
 				}
 				case RMSG_GLOBLOB:
-					bool inc = reader.ReadByte() != 0;
+					bool isIncremental = reader.ReadByte() != 0;
 					while (reader.HasRemaining)
 					{
-						switch (reader.ReadByte())
+						var type = reader.ReadCString();
+						var args = reader.ReadList();
+						switch (type)
 						{
-							case GMSG_TIME:
-								Receive(reader.ReadTimeUpdateEvent());
+							case "tm":
+								Receive(new UpdateGameTime {
+									Time = (int)args[0],
+									IsIncremental = isIncremental
+								});
 								break;
-							case GMSG_LIGHT:
-								reader.ReadLightUpdateEvent();
+							case "astro":
+								Receive(new UpdateAstronomy {
+									Day = (float)args[0],
+									MoonPhase = (float)args[1],
+									Year = (float)args[2],
+									IsNight = (byte)args[3] != 0,
+									MoonColor = (Color)args[4]
+								});
 								break;
-							case GMSG_SKY:
-								reader.ReadSkyUpdateEvent();
+							case "light":
+								Receive(new UpdateLighting {
+									Ambient = (Color)args[0],
+									Diffuse = (Color)args[1],
+									Specular = (Color)args[2],
+									Angle = (float)args[3],
+									Elevation = (float)args[4]
+								});
 								break;
-							case GMSG_WEATHER:
-								reader.ReadWeatherUpdateEvent();
+							case "sky":
+								if (args.Length > 0)
+									// TODO: add actual data to sky update message
+									Receive(new SkyUpdate());
+								else
+									Receive(new SkyClear());
+								break;
+							case "wth":
+								// TODO: add actual data to weather update message
+								Receive(new UpdateWeather());
 								break;
 						}
 					}
@@ -249,18 +274,21 @@ namespace Haven.Protocols.Hafen
 
 		protected override void HandleGobData(BinaryDataReader reader)
 		{
-			var ev = new UpdateGameObject();
-			ev.ReplaceFlag = (reader.ReadByte() & 1) != 0;
-			ev.GobId = reader.ReadUInt32();
-			ev.Frame = reader.ReadInt32();
-			while (true)
+			while (reader.HasRemaining)
 			{
-				var delta = DecodeGobDelta(reader);
-				if (delta == null)
-					break;
-				ev.Deltas.Add(delta);
+				var ev = new UpdateGameObject();
+				ev.Flags = (UpdateGameObjectFlags)reader.ReadByte();
+				ev.GobId = reader.ReadUInt32();
+				ev.Frame = reader.ReadInt32();
+				while (true)
+				{
+					var delta = DecodeGobDelta(reader);
+					if (delta == null)
+						break;
+					ev.Deltas.Add(delta);
+				}
+				Receive(ev);
 			}
-			Receive(ev);
 		}
 
 		private GobDelta DecodeGobDelta(BinaryDataReader reader)

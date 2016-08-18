@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Haven.Protocols.Hafen.Messages
 {
@@ -6,7 +7,7 @@ namespace Haven.Protocols.Hafen.Messages
 	{
 		private readonly List<GobDelta> deltas = new List<GobDelta>();
 
-		public bool ReplaceFlag { get; set; }
+		public UpdateGameObjectFlags Flags { get; set; }
 
 		public long GobId { get; set; }
 
@@ -16,6 +17,13 @@ namespace Haven.Protocols.Hafen.Messages
 		{
 			get { return deltas; }
 		}
+	}
+
+	[Flags]
+	public enum UpdateGameObjectFlags : byte
+	{
+		Replace = 1,
+		Virtual = 2
 	}
 
 	public abstract class GobDelta

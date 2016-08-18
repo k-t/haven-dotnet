@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HafenMessageHandlerBase.cs" />
+    <Compile Include="Messages\SkyUpdate.cs" />
     <Compile Include="Messages\UpdateAmbientLight.cs" />
     <Compile Include="Messages\UpdateAstronomy.cs" />
     <Compile Include="Messages\BuffClearAll.cs" />
@@ -62,6 +63,9 @@
     <Compile Include="Messages\PlayMusic.cs" />
     <Compile Include="Messages\PlaySound.cs" />
     <Compile Include="Messages\LoadResource.cs" />
+    <Compile Include="Messages\UpdateLighting.cs" />
+    <Compile Include="Messages\SkyClear.cs" />
+    <Compile Include="Messages\UpdateWeather.cs" />
     <Compile Include="Messages\WidgetCreate.cs" />
     <Compile Include="Messages\WidgetDestroy.cs" />
     <Compile Include="Messages\WidgetMessage.cs" />

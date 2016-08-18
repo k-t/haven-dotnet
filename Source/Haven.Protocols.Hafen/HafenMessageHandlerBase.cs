@@ -37,6 +37,10 @@ namespace Haven.Protocols.Hafen
 			AddHandler<WidgetMessage>(Handle);
 			AddHandler<ExitMessage>(Handle);
 			AddHandler<ExceptionMessage>(Handle);
+			AddHandler<SkyClear>(Handle);
+			AddHandler<SkyUpdate>(Handle);
+			AddHandler<UpdateLighting>(Handle);
+			AddHandler<UpdateWeather>(Handle);
 		}
 
 		protected virtual void Handle(WidgetCreate message)
@@ -132,6 +136,22 @@ namespace Haven.Protocols.Hafen
 		}
 
 		protected virtual void Handle(ExitMessage message)
+		{
+		}
+
+		protected virtual void Handle(SkyClear message)
+		{
+		}
+
+		protected virtual void Handle(SkyUpdate message)
+		{
+		}
+
+		protected virtual void Handle(UpdateLighting message)
+		{
+		}
+
+		protected virtual void Handle(UpdateWeather message)
 		{
 		}
 	}
