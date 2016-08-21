@@ -4,10 +4,10 @@ using NUnit.Framework;
 namespace Haven.Resources.Formats.Ini
 {
 	[TestFixture]
-	public class IniResourceGeneratorTests
+	public class IniResourceTests
 	{
 		[Test]
-		public void GenerateWorks()
+		public void FromResourceWorks()
 		{
 			var res = new Resource(3, new object[] {
 				new FontLayer { Bytes = new byte[] {1, 2}, Type = 0 },
@@ -15,8 +15,7 @@ namespace Haven.Resources.Formats.Ini
 				new UnknownLayer("unknown", new byte[] { 71, 1 }),
 			});
 
-			var generator = new IniResourceGenerator();
-			var iniRes = generator.Generate(res, "foo");
+			var iniRes = IniResource.FromResource(res, "foo");
 
 			Assert.That(iniRes.Version, Is.EqualTo(res.Version));
 			Assert.That(iniRes.Layers.Count, Is.EqualTo(res.GetLayers().Count()));

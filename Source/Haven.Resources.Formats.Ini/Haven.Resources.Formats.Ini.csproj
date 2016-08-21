@@ -45,8 +45,6 @@
     <Compile Include="IniLayer.cs" />
     <Compile Include="LayerHandlerProvider.cs" />
     <Compile Include="IniResource.cs" />
-    <Compile Include="IniResourceGenerator.cs" />
-    <Compile Include="IniResourceIO.cs" />
     <Compile Include="IniResourceSerializer.cs" />
     <Compile Include="LayerHandlerContext.cs" />
     <Compile Include="Layers\ActionLayerHandler.cs" />
