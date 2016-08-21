@@ -5,7 +5,7 @@ namespace Haven.Resources.Formats.Ini.Layers
 {
 	public class CodeLayerHandler : GenericLayerHandler<CodeLayer>
 	{
-		private const string ClassFileKey = "class";
+		private const string ClassFileKey = "file";
 		private static readonly string[] FileKeys = { ClassFileKey };
 
 		public CodeLayerHandler() : base("code")

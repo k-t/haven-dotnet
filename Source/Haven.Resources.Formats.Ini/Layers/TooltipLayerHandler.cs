@@ -6,7 +6,7 @@ namespace Haven.Resources.Formats.Ini.Layers
 {
 	public class TooltipLayerHandler : GenericLayerHandler<TooltipLayer>
 	{
-		private const string TextFileKey = "text";
+		private const string TextFileKey = "file";
 		private static readonly string[] FileKeys = { TextFileKey };
 
 		public TooltipLayerHandler() : base("tooltip")
