@@ -39,7 +39,7 @@ namespace Haven.Resources.Formats.Ini.Layers
 			var data = new TexLayer();
 			data.Id = iniData.GetInt16("id", -1);
 			data.Image = context.LoadExternalFile(ImageFileKey);
-			data.Mask = context.HasExternalFile(ImageFileKey) ? context.LoadExternalFile(ImageFileKey) : null;
+			data.Mask = context.HasExternalFile(MaskFileKey) ? context.LoadExternalFile(MaskFileKey) : null;
 			data.Offset = iniData.GetPoint("off", Point2D.Empty);
 			data.Size = iniData.GetPoint("size");
 			data.Mipmap = iniData.GetEnum("mipmap", TexMipmap.None);
