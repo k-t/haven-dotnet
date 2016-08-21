@@ -10,15 +10,12 @@ namespace Haven.Resources.Formats.Ini.Layers
 		{
 		}
 
-		protected override void Init(IniLayer layer, CodeEntryLayer data)
-		{
-		}
-
-		protected override void Load(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override CodeEntryLayer Load(IniKeyCollection iniData, LayerHandlerContext context)
 		{
 			var entries = new List<CodeEntry>();
 			var refs = new List<ResourceRef>();
-			foreach (var key in keys)
+
+			foreach (var key in iniData)
 			{
 				switch (key.Name.ToLower())
 				{
@@ -40,19 +37,20 @@ namespace Haven.Resources.Formats.Ini.Layers
 					}
 				}
 			}
-			var data = new CodeEntryLayer();
-			data.Entries = entries.ToArray();
-			data.Classpath = refs.ToArray();
-			layer.Data = data;
+
+			return new CodeEntryLayer
+			{
+				Entries = entries.ToArray(),
+				Classpath = refs.ToArray()
+			};
 		}
 
-		protected override void Save(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override void Save(IniKeyCollection iniData, CodeEntryLayer data, LayerHandlerContext context)
 		{
-			var data = (CodeEntryLayer)layer.Data;
 			foreach (var entry in data.Entries)
-				keys.Add("entry", $"{entry.Name}:{entry.ClassName}");
+				iniData.Add("entry", $"{entry.Name}:{entry.ClassName}");
 			foreach (var classpath in data.Classpath)
-				keys.Add("ref", $"{classpath.Name}:{classpath.Version}");
+				iniData.Add("ref", $"{classpath.Name}:{classpath.Version}");
 		}
 	}
 }

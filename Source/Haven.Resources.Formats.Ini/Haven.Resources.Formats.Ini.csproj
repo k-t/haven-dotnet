@@ -40,21 +40,22 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IIniLayerHandler.cs" />
+    <Compile Include="ILayerHandler.cs" />
     <Compile Include="IniKeyCollectionExtensions.cs" />
     <Compile Include="IniLayer.cs" />
-    <Compile Include="IniLayerHandlerProvider.cs" />
+    <Compile Include="LayerHandlerProvider.cs" />
     <Compile Include="IniResource.cs" />
     <Compile Include="IniResourceGenerator.cs" />
     <Compile Include="IniResourceIO.cs" />
     <Compile Include="IniResourceSerializer.cs" />
+    <Compile Include="LayerHandlerContext.cs" />
     <Compile Include="Layers\ActionLayerHandler.cs" />
     <Compile Include="Layers\AudioLayerHandler.cs" />
     <Compile Include="Layers\BinLayerHandler.cs" />
     <Compile Include="Layers\CodeEntryHandler.cs" />
     <Compile Include="Layers\CodeLayerHandler.cs" />
     <Compile Include="Layers\FontLayerHandler.cs" />
-    <Compile Include="Layers\GenericLayerHandler.cs" />
+    <Compile Include="GenericLayerHandler.cs" />
     <Compile Include="Layers\ImageLayerHandler.cs" />
     <Compile Include="Layers\NinepatchLayerHandler.cs" />
     <Compile Include="Layers\TexLayerHandler.cs" />
@@ -78,6 +79,7 @@
       <Name>Haven.Resources</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

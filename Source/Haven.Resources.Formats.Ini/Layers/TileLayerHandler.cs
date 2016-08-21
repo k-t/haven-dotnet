@@ -1,47 +1,51 @@
-﻿using Haven.Resources.Formats.Ini.Utils;
-using Haven.Utils;
+﻿using System.Collections.Generic;
+using Haven.Resources.Formats.Ini.Utils;
 using MadMilkman.Ini;
 
 namespace Haven.Resources.Formats.Ini.Layers
 {
 	internal class TileLayerHandler : GenericLayerHandler<TileLayer>
 	{
-		private const string TileSectionName = "tile";
 		private const string ImageFileKey = "image";
+		private static readonly string[] FileKeys = { ImageFileKey };
 
-		public TileLayerHandler() : base(TileSectionName)
+		public TileLayerHandler() : base("tile")
 		{
 		}
 
-		protected override void Init(IniLayer layer, TileLayer data)
+		public override IEnumerable<string> ExternalFileKeys
 		{
-			layer.Files[ImageFileKey] = ImageUtils.GetImageFileExtension(data.ImageData) ?? ".image";
+			get { return FileKeys; }
 		}
 
-		protected override void Load(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override string GetExternalFileExtension(string externalFileKey, TileLayer data)
 		{
-			var imageFileName = keys.GetString("image");
-
-			var data = new TileLayer();
-			data.ImageData = fileSource.Read(imageFileName);
-			data.Type = keys.GetChar("type");
-			data.Id = keys.GetByte("id");
-			data.Weight = keys.GetUInt16("weight", 0);
-
-			layer.Data = data;
-			layer.Files[ImageFileKey] = imageFileName;
+			switch (externalFileKey)
+			{
+				case ImageFileKey:
+					return ImageUtils.GetImageFileExtension(data.ImageData) ?? ".image";
+			}
+			return base.GetExternalFileExtension(externalFileKey, data);
 		}
 
-		protected override void Save(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override TileLayer Load(IniKeyCollection iniData, LayerHandlerContext context)
 		{
-			var data = (TileLayer)layer.Data;
+			return new TileLayer
+			{
+				ImageData = context.LoadExternalFile(ImageFileKey),
+				Type = iniData.GetChar("type"),
+				Id = iniData.GetByte("id"),
+				Weight = iniData.GetUInt16("weight", 0)
+			};
+		}
 
-			var imageFileName = layer.Files[ImageFileKey];
-			keys.Add("image", imageFileName);
-			keys.Add("type", data.Type);
-			keys.Add("id", data.Id);
-			keys.Add("weight", data.Weight);
-			fileSource.Write(imageFileName, data.ImageData);
+		protected override void Save(IniKeyCollection iniData, TileLayer data, LayerHandlerContext context)
+		{
+			iniData.Add("type", data.Type);
+			iniData.Add("id", data.Id);
+			iniData.Add("weight", data.Weight);
+
+			context.SaveExternalFile(ImageFileKey, data.ImageData);
 		}
 	}
 }

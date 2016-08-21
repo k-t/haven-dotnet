@@ -8,37 +8,34 @@ namespace Haven.Resources.Formats.Ini.Layers
 		{
 		}
 
-		protected override void Init(IniLayer layer, ActionLayer data)
-		{
-		}
-
-		protected override void Load(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override ActionLayer Load(IniKeyCollection iniData, LayerHandlerContext context)
 		{
 			var data = new ActionLayer();
-			data.Name = keys.GetString("name");
-			data.Hotkey = keys.GetChar("hotkey");
-			var parent = keys.GetString("parent", "");
+
+			data.Name = iniData.GetString("name");
+			data.Hotkey = iniData.GetChar("hotkey");
+			var parent = iniData.GetString("parent", "");
 			if (!string.IsNullOrEmpty(parent))
 			{
 				var parts = parent.Split(':');
 				data.Parent = new ResourceRef(parts[0], ushort.Parse(parts[1]));
 			}
-			data.Prerequisite = keys.GetString("prereq", string.Empty);
-			data.Verbs = keys.GetString("verbs", "")?.Split(',');
-			layer.Data = data;
+			data.Prerequisite = iniData.GetString("prereq", string.Empty);
+			data.Verbs = iniData.GetString("verbs", "")?.Split(',');
+
+			return data;
 		}
 
-		protected override void Save(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override void Save(IniKeyCollection iniData, ActionLayer data, LayerHandlerContext context)
 		{
-			var data = (ActionLayer)layer.Data;
-			keys.Add("name", data.Name);
-			keys.Add("hotkey", data.Hotkey);
+			iniData.Add("name", data.Name);
+			iniData.Add("hotkey", data.Hotkey);
 			if (!data.Parent.IsEmpty())
-				keys.Add("parent", $"{data.Parent.Name}:{data.Parent.Version}");
+				iniData.Add("parent", $"{data.Parent.Name}:{data.Parent.Version}");
 			if (!string.IsNullOrEmpty(data.Prerequisite))
-				keys.Add("prereq", data.Prerequisite);
+				iniData.Add("prereq", data.Prerequisite);
 			if (data.Verbs != null && data.Verbs.Length > 0)
-				keys.Add("verbs", string.Join(",", data.Verbs));
+				iniData.Add("verbs", string.Join(",", data.Verbs));
 		}
 	}
 }

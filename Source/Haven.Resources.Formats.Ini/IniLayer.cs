@@ -1,16 +1,26 @@
-﻿using System.Collections.Specialized;
+﻿using System.Collections.Generic;
 
 namespace Haven.Resources.Formats.Ini
 {
 	public class IniLayer
 	{
-		private readonly NameValueCollection files = new NameValueCollection();
+		private readonly object data;
+		private readonly IDictionary<string, string> externalFiles;
 
-		public object Data { get; set; }
-
-		public NameValueCollection Files
+		public IniLayer(object data, IDictionary<string, string> externalFiles)
 		{
-			get { return files; }
+			this.data = data;
+			this.externalFiles = externalFiles;
+		}
+
+		public object Data
+		{
+			get { return data; }
+		}
+
+		public IDictionary<string, string> ExternalFiles
+		{
+			get { return externalFiles; }
 		}
 	}
 }

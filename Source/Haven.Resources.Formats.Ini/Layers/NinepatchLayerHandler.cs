@@ -4,33 +4,27 @@ namespace Haven.Resources.Formats.Ini.Layers
 {
 	internal class NinepatchLayerHandler : GenericLayerHandler<NinepatchLayer>
 	{
-		private const string NinepatchSectionName = "ninepatch";
-
-		public NinepatchLayerHandler() : base(NinepatchSectionName)
+		public NinepatchLayerHandler() : base("ninepatch")
 		{
 		}
 
-		protected override void Init(IniLayer layer, NinepatchLayer data)
+		protected override NinepatchLayer Load(IniKeyCollection iniData, LayerHandlerContext context)
 		{
+			return new NinepatchLayer
+			{
+				Top = iniData.GetByte("top", 0),
+				Bottom = iniData.GetByte("bottom", 0),
+				Left = iniData.GetByte("left", 0),
+				Right = iniData.GetByte("right", 0)
+			};
 		}
 
-		protected override void Load(IniLayer layer, IniKeyCollection attrs, IFileSource fileSource)
+		protected override void Save(IniKeyCollection iniData, NinepatchLayer data, LayerHandlerContext context)
 		{
-			var data = new NinepatchLayer();
-			data.Top = attrs.GetByte("top", 0);
-			data.Bottom = attrs.GetByte("bottom", 0);
-			data.Left = attrs.GetByte("left", 0);
-			data.Right = attrs.GetByte("right", 0);
-			layer.Data = data;
-		}
-
-		protected override void Save(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
-		{
-			var data = (NinepatchLayer)layer.Data;
-			keys.Add("top", data.Top);
-			keys.Add("bottom", data.Bottom);
-			keys.Add("left", data.Left);
-			keys.Add("right", data.Right);
+			iniData.Add("top", data.Top);
+			iniData.Add("bottom", data.Bottom);
+			iniData.Add("left", data.Left);
+			iniData.Add("right", data.Right);
 		}
 	}
 }

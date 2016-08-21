@@ -4,19 +4,19 @@ using Haven.Resources.Formats.Ini.Layers;
 
 namespace Haven.Resources.Formats.Ini
 {
-	public class IniLayerHandlerProvider
+	public class LayerHandlerProvider
 	{
 		private readonly IBinaryLayerHandlerProvider binaryHandlerProvider;
-		private readonly List<IIniLayerHandler> iniHandlers;
+		private readonly List<ILayerHandler> handlers;
 
-		public IniLayerHandlerProvider() : this(new BinaryLayerHandlerProvider())
+		public LayerHandlerProvider() : this(new BinaryLayerHandlerProvider())
 		{
 		}
 
-		public IniLayerHandlerProvider(IBinaryLayerHandlerProvider binaryHandlerProvider)
+		public LayerHandlerProvider(IBinaryLayerHandlerProvider binaryHandlerProvider)
 		{
 			this.binaryHandlerProvider = binaryHandlerProvider;
-			iniHandlers = new List<IIniLayerHandler>();
+			handlers = new List<ILayerHandler>();
 			// built-in ini layers
 			Add(new ImageLayerHandler());
 			Add(new FontLayerHandler());
@@ -32,9 +32,9 @@ namespace Haven.Resources.Formats.Ini
 			Add(new NinepatchLayerHandler());
 		}
 
-		public IIniLayerHandler GetByName(string sectionName)
+		public ILayerHandler GetByName(string sectionName)
 		{
-			var handler = iniHandlers.Find(x => x.SectionName == sectionName);
+			var handler = handlers.Find(x => x.SectionName == sectionName);
 			if (handler != null)
 				return handler;
 			if (sectionName.StartsWith(BinLayerHandler.Prefix))
@@ -46,9 +46,9 @@ namespace Haven.Resources.Formats.Ini
 			return null;
 		}
 
-		public IIniLayerHandler Get(object data)
+		public ILayerHandler Get(object data)
 		{
-			var handler = iniHandlers.Find(x => x.Type == data.GetType());
+			var handler = handlers.Find(x => x.DataType == data.GetType());
 			if (handler != null)
 				return handler;
 			var binaryHandler = binaryHandlerProvider.Get(data);
@@ -57,9 +57,9 @@ namespace Haven.Resources.Formats.Ini
 			return null;
 		}
 
-		private void Add(IIniLayerHandler handler)
+		private void Add(ILayerHandler handler)
 		{
-			iniHandlers.Add(handler);
+			handlers.Add(handler);
 		}
 	}
 }

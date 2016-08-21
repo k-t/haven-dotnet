@@ -1,41 +1,46 @@
-﻿using MadMilkman.Ini;
+﻿using System.Collections.Generic;
+using MadMilkman.Ini;
 
 namespace Haven.Resources.Formats.Ini.Layers
 {
 	public class CodeLayerHandler : GenericLayerHandler<CodeLayer>
 	{
 		private const string ClassFileKey = "class";
+		private static readonly string[] FileKeys = { ClassFileKey };
 
 		public CodeLayerHandler() : base("code")
 		{
 		}
 
-		protected override void Init(IniLayer layer, CodeLayer data)
+		public override IEnumerable<string> ExternalFileKeys
 		{
-			layer.Files[ClassFileKey] = ".class";
+			get { return FileKeys; }
 		}
 
-		protected override void Load(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override string GetExternalFileExtension(string externalFileKey, CodeLayer data)
 		{
-			var classFileName = keys.GetString("file");
-
-			var code = new CodeLayer();
-			code.Name = keys.GetString("name");
-			code.ByteCode = fileSource.Read(classFileName);
-
-			layer.Data = code;
-			layer.Files[ClassFileKey] = classFileName;
+			switch (externalFileKey)
+			{
+				case ClassFileKey:
+					return ".class";
+			}
+			return base.GetExternalFileExtension(externalFileKey, data);
 		}
 
-		protected override void Save(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override CodeLayer Load(IniKeyCollection iniData, LayerHandlerContext context)
 		{
-			var classFileName = layer.Files[ClassFileKey];
+			return new CodeLayer
+			{
+				Name = iniData.GetString("name"),
+				ByteCode = context.LoadExternalFile(ClassFileKey)
+			};
+		}
 
-			var code = (CodeLayer)layer.Data;
-			keys.Add("name", code.Name);
-			keys.Add("file", classFileName);
-			
-			fileSource.Write(classFileName, code.ByteCode);
+		protected override void Save(IniKeyCollection iniData, CodeLayer data, LayerHandlerContext context)
+		{
+			iniData.Add("name", data.Name);
+
+			context.SaveExternalFile(ClassFileKey, data.ByteCode);
 		}
 	}
 }

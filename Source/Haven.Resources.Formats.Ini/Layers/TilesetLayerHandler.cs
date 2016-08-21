@@ -8,21 +8,14 @@ namespace Haven.Resources.Formats.Ini.Layers
 		{
 		}
 
-		protected override void Init(IniLayer layer, TilesetLayer data)
+		protected override TilesetLayer Load(IniKeyCollection iniData, LayerHandlerContext context)
 		{
+			return new TilesetLayer { HasTransitions = iniData.GetBool("has_transitions", false) };
 		}
 
-		protected override void Load(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override void Save(IniKeyCollection iniData, TilesetLayer data, LayerHandlerContext context)
 		{
-			var data = new TilesetLayer();
-			data.HasTransitions = keys.GetBool("has_transitions", false);
-			layer.Data = data;
-		}
-
-		protected override void Save(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
-		{
-			var data = (TilesetLayer)layer.Data;
-			keys.Add("has_transitions", data.HasTransitions.ToString());
+			iniData.Add("has_transitions", data.HasTransitions.ToString());
 		}
 	}
 }

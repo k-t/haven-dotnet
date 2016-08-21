@@ -1,27 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Haven.Resources.Formats.Binary;
 using Haven.Utils;
 using MadMilkman.Ini;
 
 namespace Haven.Resources.Formats.Ini.Layers
 {
-	public class BinLayerHandler : IIniLayerHandler
+	public class BinLayerHandler : ILayerHandler
 	{
-		public const string Prefix = "bin/";
+		internal const string Prefix = "bin/";
+
 		private const string DataFileKey = "data";
+		private static readonly string[] FileKeys = { DataFileKey };
 
 		private readonly IBinaryLayerHandler binaryHandler;
 		private readonly string sectionName;
 
+		public Type DataType
+		{
+			get { return binaryHandler.LayerType; }
+		}
+
+		public IEnumerable<string> ExternalFileKeys
+		{
+			get { return FileKeys; }
+		}
+
 		public string SectionName
 		{
 			get { return sectionName; }
-		}
-
-		public Type Type
-		{
-			get { return binaryHandler.LayerType; }
 		}
 
 		public BinLayerHandler(IBinaryLayerHandler binaryHandler)
@@ -30,38 +39,35 @@ namespace Haven.Resources.Formats.Ini.Layers
 			this.sectionName = $"{Prefix}{binaryHandler.LayerName}";
 		}
 
-		public IniLayer Create(object data)
+		public string GetExternalFileExtension(string externalFileKey, object data)
 		{
-			var layer = new IniLayer();
-			layer.Data = data;
-			layer.Files[DataFileKey] = "data." + binaryHandler.LayerName;
-			return layer;
+			switch (externalFileKey)
+			{
+				case DataFileKey:
+					return binaryHandler.LayerName;
+				default:
+					throw new ArgumentException(
+						$"Unknown external file key '{externalFileKey}'", nameof(externalFileKey));
+			}
 		}
 
-		public IniLayer Load(IniKeyCollection keys, IFileSource fileSource)
+		public object Load(IniKeyCollection iniData, LayerHandlerContext context)
 		{
-			var layer = new IniLayer();
-			var fileName = keys.GetString("file");
-			layer.Files[DataFileKey] = fileName;
-			using (var ms = new MemoryStream(fileSource.Read(fileName)))
-			using (var buffer = new BinaryDataReader(ms))
-				layer.Data = binaryHandler.Deserialize(buffer);
-			return layer;
+			using (var reader = new BinaryDataReader(context.LoadExternalFile(DataFileKey)))
+				return binaryHandler.Deserialize(reader);
 		}
 
-		public void Save(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		public void Save(IniKeyCollection iniData, object data, LayerHandlerContext context)
 		{
-			if (layer.Data == null)
-				throw new InvalidOperationException();
+			if (data == null)
+				throw new ArgumentNullException(nameof(data));
 
-			var fileName = layer.Files[DataFileKey];
-			keys.Add("file", fileName);
 			using (var ms = new MemoryStream())
 			using (var buffer = new BinaryDataWriter(ms))
 			{
-				binaryHandler.Serialize(buffer, layer.Data);
+				binaryHandler.Serialize(buffer, data);
 				ms.Position = 0;
-				fileSource.Write(fileName, ms.ToArray());
+				context.SaveExternalFile(DataFileKey, ms.ToArray());
 			}
 		}
 	}

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using MadMilkman.Ini;
 
 namespace Haven.Resources.Formats.Ini
@@ -13,8 +14,8 @@ namespace Haven.Resources.Formats.Ini
 			SectionNameCaseSensitive = false
 		};
 
-		private static readonly IniLayerHandlerProvider Handlers =
-			new IniLayerHandlerProvider();
+		private static readonly LayerHandlerProvider Handlers =
+			new LayerHandlerProvider();
 
 		public static void Load(this IniResource res, string path)
 		{
@@ -39,7 +40,14 @@ namespace Haven.Resources.Formats.Ini
 				var handler = Handlers.GetByName(section.Name);
 				if (handler != null)
 				{
-					var layer = handler.Load(section.Keys, fileSource);
+					// get external file names to use them in the context
+					var externalFiles = new Dictionary<string, string>();
+					foreach (var key in handler.ExternalFileKeys)
+						externalFiles[key] = section.Keys[key].Value;
+
+					var context = new LayerHandlerContext(fileSource, externalFiles);
+					var layerData = handler.Load(section.Keys, context);
+					var layer = new IniLayer(layerData, externalFiles);
 					res.Layers.Add(layer);
 				}
 			}
@@ -65,7 +73,12 @@ namespace Haven.Resources.Formats.Ini
 				if (handler != null)
 				{
 					var section = file.Sections.Add(handler.SectionName);
-					handler.Save(layer, section.Keys, fileSource);
+					var context = new LayerHandlerContext(fileSource, layer.ExternalFiles);
+					handler.Save(section.Keys, layer.Data, context);
+
+					// save external file names
+					foreach (var key in handler.ExternalFileKeys)
+						section.Keys.Add(key, layer.ExternalFiles[key]);
 				}
 			}
 

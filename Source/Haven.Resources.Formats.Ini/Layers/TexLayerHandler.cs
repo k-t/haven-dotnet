@@ -1,71 +1,68 @@
-﻿using Haven.Resources.Formats.Ini.Utils;
-using Haven.Utils;
+﻿using System.Collections.Generic;
+using Haven.Resources.Formats.Ini.Utils;
 using MadMilkman.Ini;
 
 namespace Haven.Resources.Formats.Ini.Layers
 {
 	public class TexLayerHandler : GenericLayerHandler<TexLayer>
 	{
-		private const string TexSectionName = "tex";
 		private const string ImageFileKey = "image";
 		private const string MaskFileKey = "mask";
+		private static readonly string[] FileKeys = { ImageFileKey, MaskFileKey };
 
-		public TexLayerHandler() : base(TexSectionName)
+		public TexLayerHandler() : base("tex")
 		{
 		}
 
-		protected override void Init(IniLayer layer, TexLayer data)
+		public override IEnumerable<string> ExternalFileKeys
 		{
-			layer.Files[ImageFileKey] = ImageUtils.GetImageFileExtension(data.Image) ?? ".image";
-			if (data.Mask != null)
-				layer.Files[MaskFileKey] = ImageUtils.GetImageFileExtension(data.Mask) ?? ".image";
+			get { return FileKeys; }
 		}
 
-		protected override void Load(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override string GetExternalFileExtension(string externalFileKey, TexLayer data)
 		{
-			var imageFileName = keys.GetString("image");
-			var maskFileName = keys.GetString("mask", null);
+			switch (externalFileKey)
+			{
+				case ImageFileKey:
+					return ImageUtils.GetImageFileExtension(data.Image) ?? ".image";
+				case MaskFileKey:
+					return ImageUtils.GetImageFileExtension(data.Mask) ?? ".image";
+			}
+			return base.GetExternalFileExtension(externalFileKey, data);
+		}
 
+		protected override TexLayer Load(IniKeyCollection iniData, LayerHandlerContext context)
+		{
 			var data = new TexLayer();
-			data.Id = keys.GetInt16("id", -1);
-			data.Image = fileSource.Read(imageFileName);
-			data.Mask = !string.IsNullOrEmpty(maskFileName) ? fileSource.Read(maskFileName) : null;
-			data.Offset = keys.GetPoint("off", Point2D.Empty);
-			data.Size = keys.GetPoint("size");
-			data.Mipmap = keys.GetEnum("mipmap", TexMipmap.None);
-			data.MagFilter = keys.GetEnum("magfilter", TexMagFilter.Nearest);
+			data.Id = iniData.GetInt16("id", -1);
+			data.Image = context.LoadExternalFile(ImageFileKey);
+			data.Mask = context.HasExternalFile(ImageFileKey) ? context.LoadExternalFile(ImageFileKey) : null;
+			data.Offset = iniData.GetPoint("off", Point2D.Empty);
+			data.Size = iniData.GetPoint("size");
+			data.Mipmap = iniData.GetEnum("mipmap", TexMipmap.None);
+			data.MagFilter = iniData.GetEnum("magfilter", TexMagFilter.Nearest);
 
 			var defaultMinFilter = (data.Mipmap != TexMipmap.None)
 				? TexMinFilter.LinearMipmapLinear
 				: TexMinFilter.Linear;
-			data.MinFilter = keys.GetEnum("minfilter", defaultMinFilter);
+			data.MinFilter = iniData.GetEnum("minfilter", defaultMinFilter);
 
-			layer.Files[ImageFileKey] = imageFileName;
-			layer.Files[MaskFileKey] = maskFileName;
-			layer.Data = data;
+			return data;
 		}
 
-		protected override void Save(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override void Save(IniKeyCollection iniData, TexLayer data, LayerHandlerContext context)
 		{
-			var data = (TexLayer)layer.Data;
+			context.SaveExternalFile(ImageFileKey, data.Image);
 
-			var imageFileName = layer.Files[ImageFileKey];
-			keys.Add("image", imageFileName);
-			fileSource.Write(imageFileName, data.Image);
+			if (context.HasExternalFile(MaskFileKey))
+				context.SaveExternalFile(MaskFileKey, data.Mask);
 
-			var maskFileName = layer.Files[MaskFileKey];
-			if (!string.IsNullOrEmpty(maskFileName))
-			{
-				keys.Add("mask", maskFileName);
-				fileSource.Write(maskFileName, data.Mask);
-			}
-
-			keys.Add("id", data.Id);
-			keys.Add("off", data.Offset);
-			keys.Add("size", data.Size);
-			keys.Add("magfilter", data.MagFilter.ToString());
-			keys.Add("minfilter", data.MinFilter.ToString());
-			keys.Add("mipmap", data.Mipmap.ToString());
+			iniData.Add("id", data.Id);
+			iniData.Add("off", data.Offset);
+			iniData.Add("size", data.Size);
+			iniData.Add("magfilter", data.MagFilter.ToString());
+			iniData.Add("minfilter", data.MinFilter.ToString());
+			iniData.Add("mipmap", data.Mipmap.ToString());
 		}
 	}
 }

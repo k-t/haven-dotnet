@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using MadMilkman.Ini;
 
 namespace Haven.Resources.Formats.Ini.Layers
@@ -6,33 +7,38 @@ namespace Haven.Resources.Formats.Ini.Layers
 	public class TextLayerHandler : GenericLayerHandler<TextLayer>
 	{
 		private const string TextFileKey = "text";
+		private static readonly string[] FileKeys = { TextFileKey };
 
 		public TextLayerHandler() : base("pagina")
 		{
 		}
 
-		protected override void Init(IniLayer layer, TextLayer data)
+		public override IEnumerable<string> ExternalFileKeys
 		{
-			layer.Files[TextFileKey] = ".txt";
+			get { return FileKeys; }
 		}
 
-		protected override void Load(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override string GetExternalFileExtension(string externalFileKey, TextLayer data)
 		{
-			var fileName = keys.GetString("file");
-
-			var text = new TextLayer();
-			text.Text = Encoding.UTF8.GetString(fileSource.Read(fileName));
-
-			layer.Files[TextFileKey] = fileName;
-			layer.Data = text;
+			switch (externalFileKey)
+			{
+				case TextFileKey:
+					return ".txt";
+			}
+			return base.GetExternalFileExtension(externalFileKey, data);
 		}
 
-		protected override void Save(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override TextLayer Load(IniKeyCollection iniData, LayerHandlerContext context)
 		{
-			var fileName = layer.Files[TextFileKey];
-			var text = (TextLayer)layer.Data;
-			fileSource.Write(fileName, Encoding.UTF8.GetBytes(text.Text));
-			keys.Add("file", fileName);
+			return new TextLayer
+			{
+				Text = Encoding.UTF8.GetString(context.LoadExternalFile(TextFileKey))
+			};
+		}
+
+		protected override void Save(IniKeyCollection iniData, TextLayer data, LayerHandlerContext context)
+		{
+			context.SaveExternalFile(TextFileKey, Encoding.UTF8.GetBytes(data.Text));
 		}
 	}
 }

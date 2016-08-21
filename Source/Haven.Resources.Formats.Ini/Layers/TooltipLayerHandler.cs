@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using MadMilkman.Ini;
 
 namespace Haven.Resources.Formats.Ini.Layers
@@ -6,33 +7,38 @@ namespace Haven.Resources.Formats.Ini.Layers
 	public class TooltipLayerHandler : GenericLayerHandler<TooltipLayer>
 	{
 		private const string TextFileKey = "text";
+		private static readonly string[] FileKeys = { TextFileKey };
 
 		public TooltipLayerHandler() : base("tooltip")
 		{
 		}
 
-		protected override void Init(IniLayer layer, TooltipLayer data)
+		public override IEnumerable<string> ExternalFileKeys
 		{
-			layer.Files[TextFileKey] = ".txt";
+			get { return FileKeys; }
 		}
 
-		protected override void Load(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override string GetExternalFileExtension(string externalFileKey, TooltipLayer data)
 		{
-			var fileName = keys.GetString("file");
-
-			var tooltip = new TooltipLayer();
-			tooltip.Text = Encoding.UTF8.GetString(fileSource.Read(fileName));
-
-			layer.Files[TextFileKey] = fileName;
-			layer.Data = tooltip;
+			switch (externalFileKey)
+			{
+				case TextFileKey:
+					return ".txt";
+			}
+			return base.GetExternalFileExtension(externalFileKey, data);
 		}
 
-		protected override void Save(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override TooltipLayer Load(IniKeyCollection iniData, LayerHandlerContext context)
 		{
-			var fileName = layer.Files[TextFileKey];
-			var tooltip = (TooltipLayer)layer.Data;
-			fileSource.Write(fileName, Encoding.UTF8.GetBytes(tooltip.Text));
-			keys.Add("file", fileName);
+			return new TooltipLayer
+			{
+				Text = Encoding.UTF8.GetString(context.LoadExternalFile(TextFileKey))
+			};
+		}
+
+		protected override void Save(IniKeyCollection iniData, TooltipLayer data, LayerHandlerContext context)
+		{
+			context.SaveExternalFile(TextFileKey, Encoding.UTF8.GetBytes(data.Text));
 		}
 	}
 }

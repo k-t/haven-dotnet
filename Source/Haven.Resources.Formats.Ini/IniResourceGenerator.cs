@@ -1,10 +1,10 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
 
 namespace Haven.Resources.Formats.Ini
 {
 	public class IniResourceGenerator
 	{
-		private readonly IniLayerHandlerProvider handlers = new IniLayerHandlerProvider();
+		private readonly LayerHandlerProvider handlers = new LayerHandlerProvider();
 
 		public IniResource Generate(Resource res, string resName)
 		{
@@ -18,20 +18,18 @@ namespace Haven.Resources.Formats.Ini
 				if (handler == null)
 					continue;
 
-				var layer = handler.Create(data);
-
-				// modify file names to be unique
-				foreach (var fileKey in layer.Files.AllKeys)
+				// generate file names for external files
+				var externalFiles = new Dictionary<string, string>();
+				foreach (var key in handler.ExternalFileKeys)
 				{
-					var fileName = layer.Files[fileKey];
-					var ext = Path.GetExtension(fileName);
-					layer.Files[fileKey] = $"{resName}_{i}{ext}";
+					var ext = handler.GetExternalFileExtension(key, data);
+					externalFiles[key] = $"{resName}_{i}{ext}";
 				}
 
-				result.Layers.Add(layer);
+				result.Layers.Add(new IniLayer(data, externalFiles));
 				i++;
 			}
-			
+
 			return result;
 		}
 	}

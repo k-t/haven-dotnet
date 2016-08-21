@@ -1,43 +1,48 @@
-﻿using MadMilkman.Ini;
+﻿using System.Collections.Generic;
+using MadMilkman.Ini;
 
 namespace Haven.Resources.Formats.Ini.Layers
 {
 	public class AudioLayerHandler : GenericLayerHandler<AudioLayer>
 	{
 		private const string AudioFileKey = "audio";
+		private static readonly string[] FileKeys = { AudioFileKey };
 
 		public AudioLayerHandler() : base("audio")
 		{
 		}
 
-		protected override void Init(IniLayer layer, AudioLayer data)
+		public override IEnumerable<string> ExternalFileKeys
 		{
-			layer.Files[AudioFileKey] = ".ogg";
+			get { return FileKeys; }
 		}
 
-		protected override void Load(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override string GetExternalFileExtension(string externalFileKey, AudioLayer data)
 		{
-			var fileName = keys.GetString("file");
-
-			var data = new AudioLayer();
-			data.Id = keys.GetString("id");
-			data.BaseVolume = keys.GetDouble("volume", 1.0);
-			data.Bytes = fileSource.Read(fileName);
-
-			layer.Data = data;
-			layer.Files[AudioFileKey] = fileName;
+			switch (externalFileKey)
+			{
+				case AudioFileKey:
+					return ".ogg";
+			}
+			return base.GetExternalFileExtension(externalFileKey, data);
 		}
 
-		protected override void Save(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override AudioLayer Load(IniKeyCollection iniData, LayerHandlerContext context)
 		{
-			var fileName = layer.Files[AudioFileKey];
+			return new AudioLayer
+			{
+				Id = iniData.GetString("id"),
+				BaseVolume = iniData.GetDouble("volume", 1.0),
+				Bytes = context.LoadExternalFile(AudioFileKey)
+			};
+		}
 
-			var data = (AudioLayer)layer.Data;
-			keys.Add("id", data.Id);
-			keys.Add("volume", data.BaseVolume);
-			keys.Add("file", fileName);
+		protected override void Save(IniKeyCollection iniData, AudioLayer data, LayerHandlerContext context)
+		{
+			iniData.Add("id", data.Id);
+			iniData.Add("volume", data.BaseVolume);
 
-			fileSource.Write(fileName, data.Bytes);
+			context.SaveExternalFile(AudioFileKey, data.Bytes);
 		}
 	}
 }

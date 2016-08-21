@@ -1,39 +1,40 @@
-﻿using MadMilkman.Ini;
+﻿using System.Collections.Generic;
+using MadMilkman.Ini;
 
 namespace Haven.Resources.Formats.Ini.Layers
 {
 	internal class FontLayerHandler : GenericLayerHandler<FontLayer>
 	{
-		private const string FontSectionName = "font";
-		private const string DataFileKey = "data";
+		private const string FontFileKey = "file";
+		private static readonly string[] FileKeys = { FontFileKey };
 
-		public FontLayerHandler() : base(FontSectionName)
+		public FontLayerHandler() : base("font")
 		{
 		}
 
-		protected override void Init(IniLayer layer, FontLayer data)
+		public override IEnumerable<string> ExternalFileKeys
 		{
-			layer.Files[DataFileKey] = ".ttf";
+			get { return FileKeys; }
 		}
 
-		protected override void Load(IniLayer layer, IniKeyCollection attrs, IFileSource fileSource)
+		protected override string GetExternalFileExtension(string externalFileKey, FontLayer data)
 		{
-			var fileName = attrs["file"].Value;
-
-			var data = new FontLayer();
-			data.Bytes = fileSource.Read(fileName);
-
-			layer.Data = data;
-			layer.Files[DataFileKey] = fileName;
+			switch (externalFileKey)
+			{
+				case FontFileKey:
+					return ".ttf";
+			}
+			return base.GetExternalFileExtension(externalFileKey, data);
 		}
 
-		protected override void Save(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override FontLayer Load(IniKeyCollection iniData, LayerHandlerContext context)
 		{
-			var data = (FontLayer)layer.Data;
+			return new FontLayer { Bytes = context.LoadExternalFile(FontFileKey) };
+		}
 
-			var fileName = layer.Files[DataFileKey];
-			keys.Add("file", fileName);
-			fileSource.Write(fileName, data.Bytes);
+		protected override void Save(IniKeyCollection iniData, FontLayer data, LayerHandlerContext context)
+		{
+			context.SaveExternalFile(FontFileKey, data.Bytes);
 		}
 	}
 }

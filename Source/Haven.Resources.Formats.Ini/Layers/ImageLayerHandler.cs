@@ -1,49 +1,53 @@
-﻿using Haven.Resources.Formats.Ini.Utils;
-using Haven.Utils;
+﻿using System.Collections.Generic;
+using Haven.Resources.Formats.Ini.Utils;
 using MadMilkman.Ini;
 
 namespace Haven.Resources.Formats.Ini.Layers
 {
 	internal class ImageLayerHandler : GenericLayerHandler<ImageLayer>
 	{
-		private const string ImageSectionName = "image";
-		private const string ImageFileKey = "image";
+		private const string ImageFileKey = "file";
+		private static readonly string[] FileKeys = { ImageFileKey };
 
-		public ImageLayerHandler() : base(ImageSectionName)
+		public ImageLayerHandler() : base("image")
 		{
 		}
 
-		protected override void Init(IniLayer layer, ImageLayer data)
+		public override IEnumerable<string> ExternalFileKeys
 		{
-			layer.Files[ImageFileKey] = ImageUtils.GetImageFileExtension(data.Data) ?? ".image";
+			get { return FileKeys; }
 		}
 
-		protected override void Load(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override string GetExternalFileExtension(string externalFileKey, ImageLayer data)
 		{
-			var fileName = keys.GetString("file");
-
-			var data = new ImageLayer();
-			data.Data = fileSource.Read(fileName);
-			data.Id = keys.GetInt16("id", -1);
-			data.Z = keys.GetInt16("z", 0);
-			data.SubZ = keys.GetInt16("subz", 0);
-			data.Offset = keys.GetPoint("off", Point2D.Empty);
-
-			layer.Data = data;
-			layer.Files[ImageFileKey] = fileName;
+			switch (externalFileKey)
+			{
+				case ImageFileKey:
+					return ImageUtils.GetImageFileExtension(data.Data) ?? ".image";
+			}
+			return base.GetExternalFileExtension(externalFileKey, data);
 		}
 
-		protected override void Save(IniLayer layer, IniKeyCollection keys, IFileSource fileSource)
+		protected override ImageLayer Load(IniKeyCollection iniData, LayerHandlerContext context)
 		{
-			var data = (ImageLayer)layer.Data;
+			return new ImageLayer
+			{
+				Id = iniData.GetInt16("id", -1),
+				Z = iniData.GetInt16("z", 0),
+				SubZ = iniData.GetInt16("subz", 0),
+				Offset = iniData.GetPoint("off", Point2D.Empty),
+				Data = context.LoadExternalFile(ImageFileKey),
+			};
+		}
 
-			var fileName = layer.Files[ImageFileKey];
-			keys.Add("file", fileName);
-			keys.Add("id", data.Id);
-			keys.Add("z", data.Z);
-			keys.Add("subz", data.SubZ);
-			keys.Add("off", data.Offset);
-			fileSource.Write(fileName, data.Data);
+		protected override void Save(IniKeyCollection iniData, ImageLayer data, LayerHandlerContext context)
+		{
+			iniData.Add("id", data.Id);
+			iniData.Add("z", data.Z);
+			iniData.Add("subz", data.SubZ);
+			iniData.Add("off", data.Offset);
+
+			context.SaveExternalFile(ImageFileKey, data.Data);
 		}
 	}
 }
