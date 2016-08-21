@@ -44,7 +44,7 @@ namespace Haven.Resources.Formats.Ini.Layers
 			switch (externalFileKey)
 			{
 				case DataFileKey:
-					return binaryHandler.LayerName;
+					return "." + binaryHandler.LayerName;
 				default:
 					throw new ArgumentException(
 						$"Unknown external file key '{externalFileKey}'", nameof(externalFileKey));
