@@ -9,6 +9,7 @@
 		public float[] Tangents { get; set; }
 		public float[] Bitangents { get; set; }
 		public float[] TexCoords { get; set; }
+		public float[] OverlayTexCoords { get; set; }
 		public float[] Colors { get; set; }
 		public BoneArray Bones { get; set; }
 

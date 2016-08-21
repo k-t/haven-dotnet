@@ -30,6 +30,7 @@ namespace Haven.Resources.Formats.Binary.Layers
 			WriteArray(writer, layer.Bitangents, "bit", WriteFloat);
 			WriteArray(writer, layer.Colors, "col", WriteFloat);
 			WriteArray(writer, layer.TexCoords, "tex", WriteFloat);
+			WriteArray(writer, layer.OverlayTexCoords, "otex", WriteFloat);
 
 			if (layer.Bones != null)
 			{
@@ -66,6 +67,9 @@ namespace Haven.Resources.Formats.Binary.Layers
 					break;
 				case "tex":
 					layer.TexCoords = ReadArray(ReadFloat, reader, vertexCount * 2);
+					break;
+				case "otex":
+					layer.OverlayTexCoords = ReadArray(ReadFloat, reader, vertexCount * 2);
 					break;
 				case "bones":
 					layer.Bones = new VertexLayer.BoneArray();
