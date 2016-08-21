@@ -6,6 +6,7 @@ namespace Haven.Resources.Formats.Ini.Layers
 {
 	public class TexLayerHandler : GenericLayerHandler<TexLayer>
 	{
+		private const string DefaultImageExtension = ".img";
 		private const string ImageFileKey = "image";
 		private const string MaskFileKey = "mask";
 		private static readonly string[] FileKeys = { ImageFileKey, MaskFileKey };
@@ -24,9 +25,11 @@ namespace Haven.Resources.Formats.Ini.Layers
 			switch (externalFileKey)
 			{
 				case ImageFileKey:
-					return ImageUtils.GetImageFileExtension(data.Image) ?? ".image";
+					return ImageUtils.GetImageFileExtension(data.Image) ?? DefaultImageExtension;
 				case MaskFileKey:
-					return ImageUtils.GetImageFileExtension(data.Mask) ?? ".image";
+					return (data.Mask != null)
+						? ImageUtils.GetImageFileExtension(data.Mask) ?? DefaultImageExtension
+						: null;
 			}
 			return base.GetExternalFileExtension(externalFileKey, data);
 		}
@@ -54,7 +57,7 @@ namespace Haven.Resources.Formats.Ini.Layers
 		{
 			context.SaveExternalFile(ImageFileKey, data.Image);
 
-			if (context.HasExternalFile(MaskFileKey))
+			if (data.Mask != null)
 				context.SaveExternalFile(MaskFileKey, data.Mask);
 
 			iniData.Add("id", data.Id);

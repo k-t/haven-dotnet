@@ -131,7 +131,7 @@ namespace Haven.Resources.Formats.Ini
 				foreach (var key in handler.ExternalFileKeys)
 				{
 					var ext = handler.GetExternalFileExtension(key, data);
-					externalFiles[key] = $"{resName}_{i}{ext}";
+					externalFiles[key] = (ext != null) ?  $"{resName}_{i}{ext}" : null;
 				}
 
 				result.Layers.Add(new IniLayer(data, externalFiles));
