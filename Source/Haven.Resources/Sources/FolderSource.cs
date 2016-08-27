@@ -26,6 +26,11 @@ namespace Haven.Resources
 			AddSerializer(".res", new BinaryResourceSerializer());
 		}
 
+		public string BasePath
+		{
+			get { return basePath; }
+		}
+
 		public string Description
 		{
 			get { return $"[Folder]{basePath}"; }

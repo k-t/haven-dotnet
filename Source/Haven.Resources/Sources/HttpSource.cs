@@ -17,6 +17,11 @@ namespace Haven.Resources
 			serializer = new BinaryResourceSerializer();
 		}
 
+		public string Url
+		{
+			get { return client.BaseAddress; }
+		}
+
 		public string Description
 		{
 			get { return $"[Http] {client.BaseAddress}"; }

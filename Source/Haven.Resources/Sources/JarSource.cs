@@ -18,6 +18,11 @@ namespace Haven.Resources
 			zip = new ZipFile(path);
 		}
 
+		public string Path
+		{
+			get { return zip.Name; }
+		}
+
 		public string Description
 		{
 			get { return $"[JAR]{zip.Name}"; }
