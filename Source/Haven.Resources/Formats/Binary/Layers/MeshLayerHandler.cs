@@ -1,4 +1,5 @@
-﻿using Haven.Utils;
+﻿using System.Collections.Generic;
+using Haven.Utils;
 
 namespace Haven.Resources.Formats.Binary.Layers
 {
@@ -11,15 +12,28 @@ namespace Haven.Resources.Formats.Binary.Layers
 		protected override MeshLayer Deserialize(BinaryDataReader reader)
 		{
 			var flags = reader.ReadByte();
-			if ((flags & ~7) != 0)
+			if ((flags & ~15) != 0)
 				throw new ResourceException($"Unsupported flags in fastmesh: {flags}");
-			
+
 			var data = new MeshLayer();
 			var indexCount = reader.ReadUInt16();
 			data.Indexes = new short[indexCount * 3];
 			data.MaterialId = reader.ReadInt16();
 			data.Id = ((flags & 2) != 0) ? reader.ReadInt16() : (short)-1;
 			data.Ref = ((flags & 4) != 0) ? reader.ReadInt16() : (short)-1;
+
+			data.Rdat = new Dictionary<string, string>();
+			if ((flags & 8) != 0)
+			{
+				while (true)
+				{
+					var key = reader.ReadCString();
+					if (string.IsNullOrEmpty(key))
+						break;
+					data.Rdat[key] = reader.ReadCString();
+				}
+			}
+
 			for (int i = 0; i < data.Indexes.Length; i++)
 				data.Indexes[i] = (short)reader.ReadUInt16();
 
@@ -33,14 +47,25 @@ namespace Haven.Resources.Formats.Binary.Layers
 				flags |= 2;
 			if (mesh.Ref != -1)
 				flags |= 4;
+			if (mesh.Rdat != null && mesh.Rdat.Count > 0)
+				flags |= 8;
 
 			writer.Write(flags);
 			writer.Write((ushort)(mesh.Indexes.Length / 3));
 			writer.Write(mesh.MaterialId);
-			if (mesh.Id != -1)
+			if ((flags & 2) != 0)
 				writer.Write(mesh.Id);
-			if (mesh.Ref != -1)
+			if ((flags & 4) != 0)
 				writer.Write(mesh.Ref);
+			if ((flags & 8) != 0)
+			{
+				foreach (var entry in mesh.Rdat)
+				{
+					writer.WriteCString(entry.Key);
+					writer.WriteCString(entry.Value);
+				}
+				writer.WriteCString("");
+			}
 			foreach (var index in mesh.Indexes)
 				writer.Write(index);
 		}

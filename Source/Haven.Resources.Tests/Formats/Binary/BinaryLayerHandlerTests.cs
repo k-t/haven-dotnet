@@ -207,21 +207,37 @@ namespace Haven.Resources.Formats.Binary
 			}
 		}
 
-		[Test]
-		public void MeshDataTest()
-		{
-			var input = new MeshLayer {
+		private static readonly MeshLayer[] MeshTestInputs = {
+			new MeshLayer {
 				Id = 42,
 				Ref = 12,
 				MaterialId = 13,
 				Indexes = new short[] { 1, 6, 66 }
-			};
+			},
+			new MeshLayer {
+				Id = 43,
+				Ref = -1,
+				Rdat = new Dictionary<string, string> {
+					{ "key1", "value1" },
+					{ "key2", "value2" }
+				},
+				MaterialId = 13,
+				Indexes = new short[] { 1, 6, 66 }
+			}
+		};
+
+		[Test]
+		[TestCaseSource(nameof(MeshTestInputs))]
+		public void MeshDataTest(MeshLayer input)
+		{
 			var serializer = new MeshLayerHandler();
 			var output = (MeshLayer)serializer.Reserialize(input);
+
 			Assert.That(output.Id, Is.EqualTo(input.Id));
 			Assert.That(output.Ref, Is.EqualTo(input.Ref));
 			Assert.That(output.MaterialId, Is.EqualTo(input.MaterialId));
 			Assert.That(output.Indexes, Is.EquivalentTo(input.Indexes));
+			Assert.That(output.Rdat, Is.EquivalentTo(input.Rdat));
 		}
 
 		[Test]
