@@ -14,12 +14,12 @@ namespace Haven.Resources.Formats.Binary.Layers
 			var layer = new MaterialLayer();
 			layer.Id = reader.ReadUInt16();
 			// read materials
-			var materials = new List<MaterialLayer.Material>();
+			var materials = new List<MaterialLayer.Part>();
 			while (reader.HasRemaining)
 			{
-				var mat = new MaterialLayer.Material();
+				var mat = new MaterialLayer.Part();
 				mat.Name = reader.ReadCString();
-				mat.Params = reader.ReadList();
+				mat.Properties = reader.ReadList();
 				materials.Add(mat);
 
 				// WTF, loftar?
@@ -33,17 +33,17 @@ namespace Haven.Resources.Formats.Binary.Layers
 						break;
 				}
 			}
-			layer.Materials = materials.ToArray();
+			layer.Parts = materials.ToArray();
 			return layer;
 		}
 
 		protected override void Serialize(BinaryDataWriter writer, MaterialLayer layer)
 		{
 			writer.Write(layer.Id);
-			foreach (var mat in layer.Materials)
+			foreach (var mat in layer.Parts)
 			{
 				writer.WriteCString(mat.Name);
-				writer.WriteList(mat.Params);
+				writer.WriteList(mat.Properties);
 			}
 		}
 	}

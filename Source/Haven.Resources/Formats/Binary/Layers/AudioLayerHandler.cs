@@ -10,12 +10,12 @@ namespace Haven.Resources.Formats.Binary.Layers
 
 		protected override AudioLayer Deserialize(BinaryDataReader reader)
 		{
-			return new AudioLayer { Id = "cl", Bytes = reader.ReadRemaining() };
+			return new AudioLayer { Id = "cl", Data = reader.ReadRemaining() };
 		}
 
 		protected override void Serialize(BinaryDataWriter writer, AudioLayer audio)
 		{
-			writer.Write(audio.Bytes);
+			writer.Write(audio.Data);
 		}
 	}
 }

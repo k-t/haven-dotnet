@@ -29,12 +29,12 @@ namespace Haven.Resources.Formats.Ini.Layers
 
 		protected override FontLayer Load(IniKeyCollection iniData, LayerHandlerContext context)
 		{
-			return new FontLayer { Bytes = context.LoadExternalFile(FontFileKey) };
+			return new FontLayer { Data = context.LoadExternalFile(FontFileKey) };
 		}
 
 		protected override void Save(IniKeyCollection iniData, FontLayer data, LayerHandlerContext context)
 		{
-			context.SaveExternalFile(FontFileKey, data.Bytes);
+			context.SaveExternalFile(FontFileKey, data.Data);
 		}
 	}
 }

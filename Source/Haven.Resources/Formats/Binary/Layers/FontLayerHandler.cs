@@ -21,7 +21,7 @@ namespace Haven.Resources.Formats.Binary.Layers
 			switch (data.Type)
 			{
 				case 0:
-					data.Bytes = reader.ReadRemaining();
+					data.Data = reader.ReadRemaining();
 					break;
 				default:
 					throw new ResourceException($"Unknown font type: {data.Type}");
@@ -33,7 +33,7 @@ namespace Haven.Resources.Formats.Binary.Layers
 		{
 			writer.Write(Version);
 			writer.Write(data.Type);
-			writer.Write(data.Bytes);
+			writer.Write(data.Data);
 		}
 	}
 }

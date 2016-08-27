@@ -19,7 +19,7 @@ namespace Haven.Resources.Formats.Binary.Layers
 
 		protected override void Serialize(BinaryDataWriter writer, UnknownLayer layer)
 		{
-			writer.Write(layer.Bytes);
+			writer.Write(layer.Data);
 		}
 	}
 }

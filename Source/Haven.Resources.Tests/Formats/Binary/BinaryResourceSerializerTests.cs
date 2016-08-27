@@ -48,7 +48,7 @@ namespace Haven.Resources.Formats.Binary
 
 			Assert.That(output.GetLayers<UnknownLayer>().Count(), Is.EqualTo(1));
 			Assert.That(output.GetLayers<UnknownLayer>().First().LayerName, Is.EqualTo("unknown"));
-			Assert.That(output.GetLayers<UnknownLayer>().First().Bytes, Is.EquivalentTo(new byte[] { 3, 4, 21 }));
+			Assert.That(output.GetLayers<UnknownLayer>().First().Data, Is.EquivalentTo(new byte[] { 3, 4, 21 }));
 		}
 	}
 }

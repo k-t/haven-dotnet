@@ -2,14 +2,15 @@ namespace Haven.Resources
 {
 	public class UnknownLayer
 	{
-		public UnknownLayer(string layerName, byte[] bytes)
+		public UnknownLayer(string layerName, byte[] data)
 		{
 			LayerName = layerName;
-			Bytes = bytes;
+			Data = data;
 		}
 
 		public string LayerName { get; }
-		public byte[] Bytes { get; }
+
+		public byte[] Data { get; }
 	}
 }
 

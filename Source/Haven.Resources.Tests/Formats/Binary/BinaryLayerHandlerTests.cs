@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Haven.Resources.Formats.Binary.Layers;
 using NUnit.Framework;
@@ -12,7 +13,7 @@ namespace Haven.Resources.Formats.Binary
 		public void AudioDataTest()
 		{
 			var input = new AudioLayer {
-				Bytes = new byte[] { 42, 10, 11, 12 }
+				Data = new byte[] { 42, 10, 11, 12 }
 			};
 
 			var serializer = new AudioLayerHandler();
@@ -20,7 +21,7 @@ namespace Haven.Resources.Formats.Binary
 
 			Assert.That(output.Id, Is.EqualTo(input.Id));
 			Assert.That(output.BaseVolume, Is.EqualTo(input.BaseVolume));
-			Assert.That(output.Bytes, Is.EquivalentTo(input.Bytes));
+			Assert.That(output.Data, Is.EquivalentTo(input.Data));
 		}
 
 		[Test]
@@ -29,7 +30,7 @@ namespace Haven.Resources.Formats.Binary
 			var input = new AudioLayer
 			{
 				Id = "id",
-				Bytes = new byte[] { 42, 10, 11, 12 },
+				Data = new byte[] { 42, 10, 11, 12 },
 				BaseVolume = 2.2
 			};
 
@@ -38,7 +39,7 @@ namespace Haven.Resources.Formats.Binary
 
 			Assert.That(output.Id, Is.EqualTo(input.Id));
 			Assert.That(output.BaseVolume, Is.EqualTo(input.BaseVolume));
-			Assert.That(output.Bytes, Is.EquivalentTo(input.Bytes));
+			Assert.That(output.Data, Is.EquivalentTo(input.Data));
 		}
 
 		[Test]
@@ -142,14 +143,14 @@ namespace Haven.Resources.Formats.Binary
 			var input = new FontLayer
 			{
 				Type = 0,
-				Bytes = new byte[] { 1, 2, 3, 4, 5 }
+				Data = new byte[] { 1, 2, 3, 4, 5 }
 			};
 
 			var serializer = new FontLayerHandler();
 			var output = (FontLayer)serializer.Reserialize(input);
 
 			Assert.That(output.Type, Is.EqualTo(input.Type));
-			Assert.That(output.Bytes, Is.EquivalentTo(input.Bytes));
+			Assert.That(output.Data, Is.EquivalentTo(input.Data));
 		}
 
 		[Test]
@@ -182,10 +183,10 @@ namespace Haven.Resources.Formats.Binary
 				Id = 1234,
 				IsLinear = false,
 				IsMipmap = true,
-				Materials = new [] {
-					new MaterialLayer.Material { Name = "mlink", Params = new object[] { "gfx/someres", 1, 2, 3 } },
-					new MaterialLayer.Material { Name = "col", Params = new object[] { 1, 2.0f, "dsd", new Point2D(1, 2)  } },
-					new MaterialLayer.Material { Name = "mipmap", Params = new object[0] },
+				Parts = new [] {
+					new MaterialLayer.Part { Name = "mlink", Properties = new object[] { "gfx/someres", 1, 2, 3 } },
+					new MaterialLayer.Part { Name = "col", Properties = new object[] { 1, 2.0f, "dsd", new Point2D(1, 2)  } },
+					new MaterialLayer.Part { Name = "mipmap", Properties = new object[0] },
 				}
 			};
 
@@ -195,14 +196,14 @@ namespace Haven.Resources.Formats.Binary
 			Assert.That(output.Id, Is.EqualTo(input.Id));
 			Assert.That(output.IsLinear, Is.EqualTo(input.IsLinear));
 			Assert.That(output.IsMipmap, Is.EqualTo(input.IsMipmap));
-			Assert.That(output.Materials, Is.Not.Null);
-			Assert.That(output.Materials.Length, Is.EqualTo(input.Materials.Length));
+			Assert.That(output.Parts, Is.Not.Null);
+			Assert.That(output.Parts.Length, Is.EqualTo(input.Parts.Length));
 
-			foreach (var inputMaterial in input.Materials)
+			foreach (var inputMaterial in input.Parts)
 			{
-				var outputMaterial = output.Materials.FirstOrDefault(x => x.Name == inputMaterial.Name);
+				var outputMaterial = output.Parts.FirstOrDefault(x => x.Name == inputMaterial.Name);
 				Assert.That(outputMaterial, Is.Not.Null);
-				Assert.That(outputMaterial.Params, Is.EquivalentTo(inputMaterial.Params));
+				Assert.That(outputMaterial.Properties, Is.EquivalentTo(inputMaterial.Properties));
 			}
 		}
 
@@ -375,8 +376,8 @@ namespace Haven.Resources.Formats.Binary
 		{
 			var input = new TexLayer {
 				Id = 42,
-				Image = new byte[] { 23, 212, 21, 45 },
-				Mask = new byte[] { 223, 1, 34, 5 },
+				ImageData = new byte[] { 23, 212, 21, 45 },
+				MaskImageData = new byte[] { 223, 1, 34, 5 },
 				Mipmap = TexMipmap.Dav,
 				MagFilter = TexMagFilter.Nearest,
 				MinFilter = TexMinFilter.NearestMipmapLinear,
@@ -393,8 +394,8 @@ namespace Haven.Resources.Formats.Binary
 			Assert.That(output.MinFilter, Is.EqualTo(input.MinFilter));
 			Assert.That(output.Size, Is.EqualTo(input.Size));
 			Assert.That(output.Offset, Is.EqualTo(input.Offset));
-			Assert.That(output.Image, Is.EquivalentTo(input.Image));
-			Assert.That(output.Mask, Is.EquivalentTo(input.Mask));
+			Assert.That(output.ImageData, Is.EquivalentTo(input.ImageData));
+			Assert.That(output.MaskImageData, Is.EquivalentTo(input.MaskImageData));
 		}
 
 		[Test]
@@ -439,9 +440,9 @@ namespace Haven.Resources.Formats.Binary
 				FlavorDensity = 128,
 				HasTransitions = true,
 				FlavorObjects = new[] {
-					new FlavorObjectData { ResName = "res1", ResVersion = 1, Weight  = 1 },
-					new FlavorObjectData { ResName = "res2", ResVersion = 2, Weight  = 2 },
-					new FlavorObjectData { ResName = "res3", ResVersion = 3, Weight  = 3 },
+					new FlavorObjectData { Resource = new ResourceRef("res1", 1), Weight  = 1 },
+					new FlavorObjectData { Resource = new ResourceRef("res2", 2), Weight  = 2 },
+					new FlavorObjectData { Resource = new ResourceRef("res3", 3), Weight  = 3 },
 				}
 			};
 
@@ -461,9 +462,9 @@ namespace Haven.Resources.Formats.Binary
 				TilerName = "name",
 				FlavorDensity = 128,
 				FlavorObjects = new[] {
-					new FlavorObjectData { ResName = "res1", ResVersion = 1, Weight  = 1 },
-					new FlavorObjectData { ResName = "res2", ResVersion = 2, Weight  = 2 },
-					new FlavorObjectData { ResName = "res3", ResVersion = 3, Weight  = 3 },
+					new FlavorObjectData { Resource = new ResourceRef("res1", 1), Weight  = 1 },
+					new FlavorObjectData { Resource = new ResourceRef("res2", 2), Weight  = 2 },
+					new FlavorObjectData { Resource = new ResourceRef("res3", 3), Weight  = 3 },
 				},
 				TilerAttributes = new object[] {
 					new object[] { "attr1", 1, 1.0 },

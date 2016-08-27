@@ -19,7 +19,7 @@ namespace Haven.Resources.Formats.Binary.Layers
 			var data = new AudioLayer();
 			data.Id = reader.ReadCString();
 			data.BaseVolume = (version == 2) ? reader.ReadUInt16() / 1000.0 : 1.0;
-			data.Bytes = reader.ReadRemaining();
+			data.Data = reader.ReadRemaining();
 			return data;
 		}
 
@@ -28,7 +28,7 @@ namespace Haven.Resources.Formats.Binary.Layers
 			writer.Write(Version);
 			writer.WriteCString(audio.Id);
 			writer.Write((ushort)(audio.BaseVolume * 1000));
-			writer.Write(audio.Bytes);
+			writer.Write(audio.Data);
 		}
 	}
 }

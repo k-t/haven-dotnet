@@ -31,8 +31,7 @@ namespace Haven.Resources.Formats.Binary.Layers
 						for (int i = 0; i < flavorCount; i++)
 						{
 							var fob = new FlavorObjectData();
-							fob.ResName = reader.ReadCString();
-							fob.ResVersion = reader.ReadUInt16();
+							fob.Resource = new ResourceRef(reader.ReadCString(), reader.ReadUInt16());
 							fob.Weight = reader.ReadByte();
 							data.FlavorObjects[i] = fob;
 						}
@@ -61,8 +60,8 @@ namespace Haven.Resources.Formats.Binary.Layers
 			writer.Write(data.FlavorDensity);
 			foreach (var fob in data.FlavorObjects)
 			{
-				writer.WriteCString(fob.ResName);
-				writer.Write(fob.ResVersion);
+				writer.WriteCString(fob.Resource.Name);
+				writer.Write(fob.Resource.Version);
 				writer.Write(fob.Weight);
 			}
 			// tags

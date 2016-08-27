@@ -33,7 +33,7 @@ namespace Haven.Resources.Formats.Ini.Layers
 			{
 				Id = iniData.GetString("id"),
 				BaseVolume = iniData.GetDouble("volume", 1.0),
-				Bytes = context.LoadExternalFile(AudioFileKey)
+				Data = context.LoadExternalFile(AudioFileKey)
 			};
 		}
 
@@ -42,7 +42,7 @@ namespace Haven.Resources.Formats.Ini.Layers
 			iniData.Add("id", data.Id);
 			iniData.Add("volume", data.BaseVolume);
 
-			context.SaveExternalFile(AudioFileKey, data.Bytes);
+			context.SaveExternalFile(AudioFileKey, data.Data);
 		}
 	}
 }

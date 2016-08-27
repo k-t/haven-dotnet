@@ -2,7 +2,7 @@
 
 namespace Haven
 {
-	public struct ResourceRef
+	public struct ResourceRef : IEquatable<ResourceRef>
 	{
 		public ResourceRef(string name, ushort version)
 		{
@@ -22,12 +22,14 @@ namespace Haven
 			return Name.GetHashCode() ^ Version.GetHashCode();
 		}
 
+		public bool Equals(ResourceRef other)
+		{
+			return string.Equals(Name, other.Name) && Version == other.Version;
+		}
+
 		public override bool Equals(object obj)
 		{
-			if (!(obj is ResourceRef))
-				return false;
-			var other = (ResourceRef)obj;
-			return string.Equals(Name, other.Name) && Version == other.Version;
+			return (obj is ResourceRef) && Equals((ResourceRef)obj);
 		}
 
 		public bool IsEmpty()

@@ -25,10 +25,10 @@ namespace Haven.Resources.Formats.Ini.Layers
 			switch (externalFileKey)
 			{
 				case ImageFileKey:
-					return ImageUtils.GetImageFileExtension(data.Image) ?? DefaultImageExtension;
+					return ImageUtils.GetImageFileExtension(data.ImageData) ?? DefaultImageExtension;
 				case MaskFileKey:
-					return (data.Mask != null)
-						? ImageUtils.GetImageFileExtension(data.Mask) ?? DefaultImageExtension
+					return (data.MaskImageData != null)
+						? ImageUtils.GetImageFileExtension(data.MaskImageData) ?? DefaultImageExtension
 						: null;
 			}
 			return base.GetExternalFileExtension(externalFileKey, data);
@@ -38,8 +38,8 @@ namespace Haven.Resources.Formats.Ini.Layers
 		{
 			var data = new TexLayer();
 			data.Id = iniData.GetInt16("id", -1);
-			data.Image = context.LoadExternalFile(ImageFileKey);
-			data.Mask = context.HasExternalFile(MaskFileKey) ? context.LoadExternalFile(MaskFileKey) : null;
+			data.ImageData = context.LoadExternalFile(ImageFileKey);
+			data.MaskImageData = context.HasExternalFile(MaskFileKey) ? context.LoadExternalFile(MaskFileKey) : null;
 			data.Offset = iniData.GetPoint("off", Point2D.Empty);
 			data.Size = iniData.GetPoint("size");
 			data.Mipmap = iniData.GetEnum("mipmap", TexMipmap.None);
@@ -55,10 +55,10 @@ namespace Haven.Resources.Formats.Ini.Layers
 
 		protected override void Save(IniKeyCollection iniData, TexLayer data, LayerHandlerContext context)
 		{
-			context.SaveExternalFile(ImageFileKey, data.Image);
+			context.SaveExternalFile(ImageFileKey, data.ImageData);
 
-			if (data.Mask != null)
-				context.SaveExternalFile(MaskFileKey, data.Mask);
+			if (data.MaskImageData != null)
+				context.SaveExternalFile(MaskFileKey, data.MaskImageData);
 
 			iniData.Add("id", data.Id);
 			iniData.Add("off", data.Offset);

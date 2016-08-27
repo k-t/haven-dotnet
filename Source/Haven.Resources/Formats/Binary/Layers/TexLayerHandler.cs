@@ -52,7 +52,7 @@ namespace Haven.Resources.Formats.Binary.Layers
 				switch (part)
 				{
 					case ImagePart:
-						data.Image = reader.ReadBytes(reader.ReadInt32());
+						data.ImageData = reader.ReadBytes(reader.ReadInt32());
 						break;
 					case MipmapPart:
 						data.Mipmap = Mipmaps[reader.ReadByte()];
@@ -64,12 +64,12 @@ namespace Haven.Resources.Formats.Binary.Layers
 						minFilter = MinFilters[reader.ReadByte()];
 						break;
 					case MaskPart:
-						data.Mask = reader.ReadBytes(reader.ReadInt32());
+						data.MaskImageData = reader.ReadBytes(reader.ReadInt32());
 						break;
 					default:
 						throw new ResourceException($"Unknown texture data part: {part}");
 				}
-				
+
 			}
 			data.MagFilter = magFilter ?? TexMagFilter.Linear;
 			data.MinFilter = minFilter ?? (
@@ -87,11 +87,11 @@ namespace Haven.Resources.Formats.Binary.Layers
 			writer.Write((ushort)data.Size.X);
 			writer.Write((ushort)data.Size.Y);
 			// image
-			if (data.Image != null)
+			if (data.ImageData != null)
 			{
 				writer.Write(ImagePart);
-				writer.Write(data.Image.Length);
-				writer.Write(data.Image);
+				writer.Write(data.ImageData.Length);
+				writer.Write(data.ImageData);
 			}
 			// mipmap
 			if (data.Mipmap != TexMipmap.None)
@@ -106,11 +106,11 @@ namespace Haven.Resources.Formats.Binary.Layers
 			writer.Write(MinFilterPart);
 			writer.Write((byte)Array.IndexOf(MinFilters, data.MinFilter));
 			// mask
-			if (data.Mask != null)
+			if (data.MaskImageData != null)
 			{
 				writer.Write(MaskPart);
-				writer.Write(data.Mask.Length);
-				writer.Write(data.Mask);
+				writer.Write(data.MaskImageData.Length);
+				writer.Write(data.MaskImageData);
 			}
 		}
 	}

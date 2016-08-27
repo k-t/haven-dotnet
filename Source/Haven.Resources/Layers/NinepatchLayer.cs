@@ -1,5 +1,8 @@
 ﻿namespace Haven.Resources
 {
+	/// <summary>
+	/// Custom resource layer for ninepatch textures.
+	/// </summary>
 	public class NinepatchLayer
 	{
 		public byte Top { get; set; }

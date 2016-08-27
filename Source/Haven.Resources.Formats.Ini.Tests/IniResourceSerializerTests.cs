@@ -33,7 +33,7 @@ namespace Haven.Resources.Formats.Ini
 				Assert.That(layers[0], Is.InstanceOf(typeof(FontLayer)), "Wrong layer type");
 
 				var fontLayer = (FontLayer)layers[0];
-				Assert.That(fontLayer.Bytes.Length, Is.EqualTo(3), "Invalid font data");
+				Assert.That(fontLayer.Data.Length, Is.EqualTo(3), "Invalid font data");
 			}
 		}
 

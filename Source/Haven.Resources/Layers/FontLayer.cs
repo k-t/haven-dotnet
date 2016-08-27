@@ -3,6 +3,7 @@
 	public class FontLayer
 	{
 		public byte Type { get; set; }
-		public byte[] Bytes { get; set; }
+
+		public byte[] Data { get; set; }
 	}
 }

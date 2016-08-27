@@ -10,7 +10,7 @@ namespace Haven.Resources.Formats.Ini
 		public void FromResourceWorks()
 		{
 			var res = new Resource(3, new object[] {
-				new FontLayer { Bytes = new byte[] {1, 2}, Type = 0 },
+				new FontLayer { Data = new byte[] {1, 2}, Type = 0 },
 				new AnimLayer { Duration = 1, Id = 2, Frames = new short[] {3, 4, 5 }},
 				new UnknownLayer("unknown", new byte[] { 71, 1 }),
 			});
