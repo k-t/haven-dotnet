@@ -6,7 +6,7 @@ namespace Haven.Resources
 	{
 		public MeshLayer()
 		{
-			Rdat = new Dictionary<string, string>();
+			RData = new Dictionary<string, string>();
 		}
 
 		public short Id { get; set; }
@@ -15,7 +15,7 @@ namespace Haven.Resources
 		public short Ref { get; set; }
 
 		/* ?? */
-		public Dictionary<string, string> Rdat { get; set; }
+		public Dictionary<string, string> RData { get; set; }
 
 		/// <summary>
 		/// ID of the material used by this mesh.

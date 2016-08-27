@@ -22,7 +22,7 @@ namespace Haven.Resources.Formats.Binary.Layers
 			data.Id = ((flags & 2) != 0) ? reader.ReadInt16() : (short)-1;
 			data.Ref = ((flags & 4) != 0) ? reader.ReadInt16() : (short)-1;
 
-			data.Rdat = new Dictionary<string, string>();
+			data.RData = new Dictionary<string, string>();
 			if ((flags & 8) != 0)
 			{
 				while (true)
@@ -30,7 +30,7 @@ namespace Haven.Resources.Formats.Binary.Layers
 					var key = reader.ReadCString();
 					if (string.IsNullOrEmpty(key))
 						break;
-					data.Rdat[key] = reader.ReadCString();
+					data.RData[key] = reader.ReadCString();
 				}
 			}
 
@@ -47,7 +47,7 @@ namespace Haven.Resources.Formats.Binary.Layers
 				flags |= 2;
 			if (mesh.Ref != -1)
 				flags |= 4;
-			if (mesh.Rdat != null && mesh.Rdat.Count > 0)
+			if (mesh.RData != null && mesh.RData.Count > 0)
 				flags |= 8;
 
 			writer.Write(flags);
@@ -59,7 +59,7 @@ namespace Haven.Resources.Formats.Binary.Layers
 				writer.Write(mesh.Ref);
 			if ((flags & 8) != 0)
 			{
-				foreach (var entry in mesh.Rdat)
+				foreach (var entry in mesh.RData)
 				{
 					writer.WriteCString(entry.Key);
 					writer.WriteCString(entry.Value);

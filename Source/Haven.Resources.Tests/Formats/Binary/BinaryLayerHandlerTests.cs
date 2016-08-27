@@ -217,7 +217,7 @@ namespace Haven.Resources.Formats.Binary
 			new MeshLayer {
 				Id = 43,
 				Ref = -1,
-				Rdat = new Dictionary<string, string> {
+				RData = new Dictionary<string, string> {
 					{ "key1", "value1" },
 					{ "key2", "value2" }
 				},
@@ -237,7 +237,7 @@ namespace Haven.Resources.Formats.Binary
 			Assert.That(output.Ref, Is.EqualTo(input.Ref));
 			Assert.That(output.MaterialId, Is.EqualTo(input.MaterialId));
 			Assert.That(output.Indexes, Is.EquivalentTo(input.Indexes));
-			Assert.That(output.Rdat, Is.EquivalentTo(input.Rdat));
+			Assert.That(output.RData, Is.EquivalentTo(input.RData));
 		}
 
 		[Test]
