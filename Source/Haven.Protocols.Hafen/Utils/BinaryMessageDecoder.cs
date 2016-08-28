@@ -130,6 +130,8 @@ namespace Haven.Protocols.Hafen.Utils
 					ol = ((fl & 1) == 1) ? 2 : 1;
 				else if (type == 1)
 					ol = ((fl & 1) == 1) ? 8 : 4;
+				else if (type == 2)
+					ol = ((fl & 1) == 1) ? 32 : 16;
 				else
 					throw new Exception("Unknown plot type: " + type);
 

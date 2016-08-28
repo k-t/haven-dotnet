@@ -11,7 +11,7 @@ namespace Haven.Protocols.Hafen
 	{
 		#region Constants
 
-		private const int ProtocolVersion = 5;
+		private const int ProtocolVersion = 6;
 
 		private const int MSG_SESS = 0;
 		private const int MSG_MAPREQ = 4;
