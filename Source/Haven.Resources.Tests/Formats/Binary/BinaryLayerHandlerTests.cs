@@ -552,5 +552,40 @@ namespace Haven.Resources.Formats.Binary
 			Assert.That(output.Bones.Bones, Is.Not.Null);
 			Assert.That(output.Bones.Bones.Length, Is.EqualTo(input.Bones.Bones.Length));
 		}
+
+		#region SpriteLink
+
+		private static readonly SpriteLinkLayer[] SpriteLinkTestInput = {
+			new SpriteLinkLayer {
+				Version = 1,
+				DefaultLinkId = 3,
+				Links = new SortedDictionary<short, SpriteLink> {
+					{1, new SpriteLink.Resource { Version = 2, Name = "test1"} },
+					{2, new SpriteLink.Tile {
+							DefaultLinkId = 2,
+							SubLinks = new [] {
+								new TileSubLink { Tag = "tag1", SubLinkId = 1 },
+								new TileSubLink { Tag = "tag2", SubLinkId = 2 }
+							}
+						}
+					},
+					{3, new SpriteLink.Resource { Version = 2, Name = "test2"} }
+				}
+			}
+		};
+
+		[Test]
+		[TestCaseSource(nameof(SpriteLinkTestInput))]
+		public void SpriteLinkTest(SpriteLinkLayer input)
+		{
+			var serializer = new SpriteLinkLayerHandler();
+			var output = (SpriteLinkLayer)serializer.Reserialize(input);
+
+			Assert.That(output.Version, Is.EqualTo(input.Version));
+			Assert.That(output.DefaultLinkId, Is.EqualTo(input.DefaultLinkId));
+			Assert.That(output.Links.Count, Is.EqualTo(input.Links.Count));
+		}
+
+		#endregion
 	}
 }

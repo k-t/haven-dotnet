@@ -39,6 +39,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Formats\Binary\Layers\SpriteLinkLayerHandler.cs" />
     <Compile Include="IEnumerableResourceSource.cs" />
     <Compile Include="IFileSource.cs" />
     <Compile Include="IResourceSerializer.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Layers\NinepatchLayer.cs" />
     <Compile Include="Layers\PoseLayer.cs" />
     <Compile Include="Layers\SkeletonLayer.cs" />
+    <Compile Include="Layers\SpriteLinkLayer.cs" />
     <Compile Include="Layers\TexLayer.cs" />
     <Compile Include="Layers\TextLayer.cs" />
     <Compile Include="Layers\TileLayer.cs" />

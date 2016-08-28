@@ -38,6 +38,7 @@ namespace Haven.Resources.Formats.Binary
 			Add(new PoseLayerHandler());
 			Add(new SkeletonLayerHandler());
 			Add(new Material2LayerHandler());
+			Add(new SpriteLinkLayerHandler());
 		}
 
 		public void Add(IBinaryLayerHandler handler)
