@@ -242,10 +242,34 @@ namespace Haven.Protocols.Legacy.Utils
 
 		public static WidgetMessage ReadWidgetMessageEvent(this BinaryDataReader reader)
 		{
+			var widgetId = reader.ReadUInt16();
+			var name = reader.ReadCString();
+
+			object[] args;
+
+			// HACK: workaround for a bugged i-atime message in the BuddyWidget
+			if (name == "i-atime")
+			{
+				// read one integer parameter from the list
+				args = new object[1];
+				reader.ReadByte();
+				args[0] = reader.ReadInt32();
+				// skip remaining data
+				while (true)
+				{
+					if (!reader.HasRemaining || reader.ReadByte() == (byte)BinaryListType.End)
+						break;
+				}
+			}
+			else
+			{
+				args = reader.ReadList();
+			}
+
 			return new WidgetMessage {
-				WidgetId = reader.ReadUInt16(),
-				Name = reader.ReadCString(),
-				Args = reader.ReadList()
+				WidgetId = widgetId,
+				Name = name,
+				Args = args
 			};
 		}
 
