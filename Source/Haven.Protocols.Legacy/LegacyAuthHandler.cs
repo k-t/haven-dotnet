@@ -1,6 +1,7 @@
 using System;
 using System.Net.Security;
 using System.Net.Sockets;
+using System.Security.Authentication;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -31,7 +32,7 @@ namespace Haven.Protocols.Legacy
 		{
 			var tc = new TcpClient(address.Host, address.Port);
 			ctx = new SslStream(tc.GetStream(), false, ValidateServerCertificate, null);
-			ctx.AuthenticateAsClient(address.Host);
+			ctx.AuthenticateAsClient(address.Host, new X509CertificateCollection(), SslProtocols.Default, false);
 		}
 
 		public AuthResult TryToken(string userName, byte[] token)
